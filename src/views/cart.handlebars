@@ -1,0 +1,21 @@
+{{#each products}}
+  <div class="products">
+    <h2>Name: {{this.product.name}}</h2>
+    <p>Description: {{this.product.description}}</p>
+    <p>Price: ${{this.product.price}}</p>
+    <p>Thumbnail: {{this.product.thumbnail}}</p>
+    <p>Category: {{this.product.category}}</p>
+    <p>Code: {{this.product.code}}</p>
+    <p>Stock: {{this.product.stock}}</p>
+    <p>Product ID: {{this.product._id}}</p>
+    <p>Quantity: {{this.quantity}}</p>
+    <p>Order ID: {{this._id}}</p>
+  </div>
+{{/each}}
+
+
+<style>
+  .products {
+    line-height: 0.5; /* Ajusta el valor según tus preferencias */
+  }
+</style>

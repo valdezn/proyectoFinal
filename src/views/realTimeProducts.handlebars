@@ -1,0 +1,61 @@
+<html>
+    <body>
+        <h1>PRODUCTS:</h1>
+</div>
+<div style="display: flex;">
+<form id="add" style="flex: 1;">
+<h3>Agregar producto:</h3>
+  <div>
+    <label>Title:</label>
+    <input type="text" id="title">
+  </div>
+  <div>
+    <label>Description:</label>
+    <textarea id="description"></textarea>
+  </div>
+  <div>
+    <label>Price:</label>
+    <input type="text" id="price">
+  </div>
+  <div>
+    <label>Category:</label>
+    <input type="text" id="category">
+  </div>
+  <div>
+    <label>Thumbnail:</label>
+    <input type="text" id="thumbnail">
+  </div>
+  <div>
+    <label>Code:</label>
+    <input type="text" id="code">
+  </div>
+  <div>
+    <label>Stock:</label>
+    <input type="text" id="stock">
+  </div>
+  <button id="addProductBtn">Add Product</button>
+</form>
+
+<form id="delete" style="flex: 1; margin-left: 20px;">
+    <h3>Eliminar producto:</h3>
+  <label >Product ID:</label>
+  <input type="text" id="productId" >
+  <button id="deleteBtn">Delete Product</button>
+</form>
+</div>
+
+<h2>PRODUCTOS</h2>
+<ul id="product-list">
+{{#each docs}}
+<h3>Name: {{this.name}}</h3>
+<p>Description: {{this.description}}</p>
+<p>Price: {{this.price}}</p>
+<p>Thumbnail: {{this.thumbnail}}</p>
+<p>Category: {{this.category}}</p>
+<p>Code: {{this.code}}</p>
+<p>Stock: {{this.stock}}</p>
+<p>Id: {{this.id}}</p>
+{{/each}}
+</ul>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.js"></script>
