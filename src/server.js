@@ -7,11 +7,26 @@ import routerProducts from "./routes/products.router.js";
 import routerCarts from "./routes/carts.router.js";
 import ProductManager from "./daos/clases/mongo/productsManager.js";
 import CartManager from "./daos/clases/mongo/cartsManager.js";
-
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import sessionRouter from './routes/session.router.js'
 
 const productsManager = new ProductManager();
 const cartManager = new CartManager();
 const app = Express();
+
+
+app.use(
+  session({
+    store: new MongoStore({
+      mongoUrl:
+      'mongodb+srv://valdeznoelia26:coderhouse@cluster0.vxwlhyd.mongodb.net/ecommerce?retryWrites=true&w=majority'
+    }),
+    secret: "mongoSecret",
+    resave: true,
+    saveUninitialized: false,
+  })
+);
 
 
 app.use(Express.json());
@@ -58,6 +73,8 @@ app.use((req, res, next) => {
   next()
 });
 
+
+app.use('/api/sessions', sessionRouter)
 app.use('/', viewsRouter);
 app.use('/api/products/', routerProducts);
 app.use('/api/carts/', routerCarts);

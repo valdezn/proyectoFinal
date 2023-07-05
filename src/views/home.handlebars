@@ -1,4 +1,13 @@
 <html>
+<h1>Bienvenido, {{ userName.name }}!</h1>
+    <p>Email: {{userName.email}}</p>
+    {{#if rol}}
+    <p>Rol: Admin</p>
+    {{else}}
+    <p>Rol: User</p>
+    {{/if}}
+    <button id="logout">Logout</button>
+
 <head>
   <title>PRODUCTOS</title>
 </head>
@@ -48,3 +57,5 @@
 </html>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/home.js"></script>
+<script type="module" src="/js/login.js"></script>
+<script src="/js/logout.js"></script>

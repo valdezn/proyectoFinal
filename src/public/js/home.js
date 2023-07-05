@@ -3,6 +3,7 @@ const socket = io();
 const addProductBtn = document.getElementById('addProductBtn');
 const deleteBtn = document.getElementById("deleteBtn");
 
+
 addProductBtn.addEventListener('click', function(e) {
   const product = {
     title: document.getElementById('title').value,
@@ -11,7 +12,7 @@ addProductBtn.addEventListener('click', function(e) {
     category: document.getElementById('category').value,
     thumbnail: document.getElementById('thumbnail').value,
     code: document.getElementById('code').value,
-        stock: document.getElementById('stock').value,
+    stock: document.getElementById('stock').value,
     };
     //emito al servidor el producto nuevo
     socket.emit('addProduct', product);
@@ -77,3 +78,5 @@ addProductBtn.addEventListener('click', function(e) {
     }, 3000); // Envío el ID del producto al servidor
     socket.emit('addToCart', productId);
   }
+
+export default socket;

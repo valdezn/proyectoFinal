@@ -17,22 +17,6 @@ export default class CartManager {
       return result
     }
 
-    //para vista
-    getCartByIdVista = async (id) => {
-      try {
-          if (!mongoose.isValidObjectId(id)) {
-            return `El carrito con id: '${id}' no existe.`;
-          }
-          const result = await cartsModel.findOne({ _id: id }).populate('products.product'); ///
-          if (!result) return `El carrito con id: '${id}' no existe.`
-
-          return result;
-      } catch (error) {
-          console.log(error);
-      }
-  };
-
-  //para postman
     getCartById = async (id) => {
         try {
             if (!mongoose.isValidObjectId(id)) {
