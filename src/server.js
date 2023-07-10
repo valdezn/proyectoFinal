@@ -10,6 +10,8 @@ import CartManager from "./daos/clases/mongo/cartsManager.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import sessionRouter from './routes/session.router.js'
+import passport from "passport";
+import initializePassport from './config/passport.config.js';
 
 const productsManager = new ProductManager();
 const cartManager = new CartManager();
@@ -28,6 +30,9 @@ app.use(
   })
 );
 
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
