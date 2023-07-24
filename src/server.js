@@ -12,12 +12,15 @@ import MongoStore from "connect-mongo";
 import sessionRouter from './routes/session.router.js'
 import passport from "passport";
 import initializePassport from './config/passport.config.js';
+import { initializePassportJWT } from "./config/jwt.passport.js";
+import cookieParser from "cookie-parser";
+import userModel from "./daos/models/users.model.js";
 
 const productsManager = new ProductManager();
 const cartManager = new CartManager();
 const app = Express();
 
-
+/*
 app.use(
   session({
     store: new MongoStore({
@@ -29,22 +32,33 @@ app.use(
     saveUninitialized: false,
   })
 );
+*/
 
 initializePassport();
+initializePassportJWT();
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(cookieParser());
+//app.use(passport.session());
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
 app.use(Express.static(__dirname + '/public'));
-app.engine("handlebars", handlebars.engine());
+
+const hbs = handlebars.create({
+  helpers: {
+    isEqual: function (a, b, options) {
+      return a === b ? options.fn(this) : options.inverse(this);
+    },
+  },
+});
+
+app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 app.set('views', __dirname + '/views')
 
 
 const expressServer = app.listen(8080, () => console.log("Listening"));
 const socketServer = new Server(expressServer);
-
 
 const mensajes = []
 
@@ -65,10 +79,13 @@ socketServer.on("connection", (socket) => {
       socketServer.emit("updatedProducts", newProducts);
     });
   
-  socket.on('addToCart', async (productId) => {
-    const cartId = '649b92000715b85820510f22' //único carrito disponible, si se borra hay que cambiar cid
-    await cartManager.addProductInCart(cartId, productId);
-    console.log('Producto agregado')
+  socket.on('addToCart', async (cartId, productId) => {
+    try {
+      await cartManager.addProductInCart(cartId, productId);
+      console.log('Producto agregado al carrito con ID:', cartId);
+    } catch (error) {
+      console.error('Error al agregar el producto al carrito:', error);
+    }
   });
 });
   

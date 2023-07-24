@@ -1,11 +1,14 @@
 <html>
-<h1>Bienvenido, {{ userName.name }}!</h1>
-    <p>Email: {{userName.email}}</p>
-    {{#if rol}}
+<h1>Bienvenido, {{ firstName }}!</h1>
+    <p>Email: {{userName}}</p>
+    {{#isEqual rol 'admin'}}
     <p>Rol: Admin</p>
     {{else}}
     <p>Rol: User</p>
-    {{/if}}
+    {{/isEqual}}
+    <p>Carrito:</p>
+    <p id="cartIdElement" data-cartid="{{cartId}}">{{cartId}}</p>
+    
     <button id="logout">Logout</button>
 
 <head>

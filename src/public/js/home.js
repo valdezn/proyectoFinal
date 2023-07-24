@@ -68,15 +68,23 @@ addProductBtn.addEventListener('click', function(e) {
     });
   });
     
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    let cartId = document.getElementById("cartIdElement");
+  })
+  
   function addToCart(button, productId) {
     var successMessage = button.nextElementSibling;
     successMessage.style.display = 'block'; //msj emergente al presionar el boton addtocart
-  
+    
     // Oculto el mensaje después de 3 segundos
-    setTimeout(function() {
+    setTimeout(function () {
       successMessage.style.display = 'none';
-    }, 3000); // Envío el ID del producto al servidor
-    socket.emit('addToCart', productId);
-  }
+    }, 3000);
+    
+    const cartIdElement = document.getElementById("cartIdElement");
+    const cartId = cartIdElement.dataset.cartid;
 
-export default socket;
+    // Envío el cartId y el ID del producto al servidor
+    socket.emit('addToCart', cartId, productId);
+  }

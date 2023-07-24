@@ -3,7 +3,9 @@ import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import userModel from '../daos/models/users.model.js';
 import { createHash, isValidPassword } from "../utils.js";
+import CartManager from "../daos/clases/mongo/cartsManager.js";
 
+const cartManager = new CartManager();
 
 const LocalStrategy = local.Strategy;
 const initializePassport = () => {
@@ -16,12 +18,23 @@ const initializePassport = () => {
                     console.log('User already exists.')
                     return done(null,false)
                 }
+                
+                const newCart = await cartManager.addCart()
+                const cartId = newCart._id
+                
+                let rol = 'user'
+                if (username === 'adminCoder@coder.com') {
+                    rol = 'admin'
+                }
+
                 const newUser = {
                     first_name,
                     last_name,
                     email,
                     age,
-                    password: createHash(password)
+                    password: createHash(password),
+                    cartId: cartId,
+                    role: rol
                 }
                 let result = await userModel.create(newUser);
                 return done(null, result);
@@ -46,9 +59,9 @@ const initializePassport = () => {
     }))
 
     passport.use('github', new GitHubStrategy({
-        clientID: '',
-        clientSecret: '',
-        callbackURL: ''
+        clientID: 'Iv1.ed75791766957480',
+        clientSecret: '51051817a154dc49cb5381f582460d7e6afff883',
+        callbackURL: 'http://localhost:8080/api/sessions/githubcallback'
     }, async (accessToken, refreshToken, profile, done) => {
         //console.log(profile)
         let user = await userModel.findOne({first_name: profile._json.name})
@@ -59,7 +72,9 @@ const initializePassport = () => {
                 last_name: 'lastName',
                 email: profile.profileUrl, //github no comparte el mail
                 age: 25,
-                password: ''
+                password: '',
+                cartId: '649b92000715b85820510f22',
+                rol: 'user'
             }
             const result = await userModel.create(newUser);
             done(null, result);

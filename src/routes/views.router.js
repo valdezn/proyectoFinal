@@ -2,7 +2,8 @@ import express from 'express';
 import { productModel } from '../daos/models/products.model.js';
 import __dirname from "../utils.js";
 import { cartsModel } from '../daos/models/carts.model.js';
-
+import passport from 'passport';
+import userModel from '../daos/models/users.model.js';
 
 const router = express.Router();
 
@@ -18,9 +19,9 @@ router.get('/login', (req, res) => {
   res.render('login');
 })
 
-router.get('/products', async (req, res, next) => {
-  if (!req.session.userName) return res.redirect('/login');
-
+router.get('/products', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  if (!req.user) return res.redirect('/login');
+  
   let page = req.query.page;
   if (!page) page=1
   
@@ -51,9 +52,13 @@ router.get('/products', async (req, res, next) => {
   };
   
   try {  
-    const userName = req.session.userName
-    const rol = req.session.admin
-    console.log(userName)
+    const userName = req.user.email;
+    const userLog = await userModel.findOne({email: userName})
+    const rol = userLog.role;
+    const firstName = userLog.first_name;
+    const cartId = userLog.cartId;
+
+    console.log(`Rol del usuario: ${rol}`);
     const result = await productModel.paginate(query, options);
     if (isNaN(page) || page <= 0 || page > result.totalPages) {
       res.status(404).render('error404.handlebars');
@@ -71,7 +76,7 @@ router.get('/products', async (req, res, next) => {
       hasPrevPage: result.hasPrevPage
     };
 
-    res.render('home.handlebars', {...response, userName, rol});
+    res.render('home.handlebars', {...response, userName, firstName, rol, cartId});
   } catch (error) {
     console.error('Error al obtener los productos:', error);
     res.status(500).send('Error al obtener los productos');
