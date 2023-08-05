@@ -8,7 +8,7 @@ export default class ProductController {
     }
 
     async addProductController(product) {
-        const result = await this.productService.createProductService(product);
+        const result = await this.productService.addProductService(product);
         return result;
     }
 

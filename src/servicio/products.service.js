@@ -16,7 +16,7 @@ export default class ProductService {
     return result;
     }
 
-  async createProductService(product) {
+  async addProductService(product) {
     const result = await this.productManager.addProduct(product);
     return result;
   }
