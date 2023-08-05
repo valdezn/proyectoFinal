@@ -15,6 +15,11 @@ import initializePassport from './config/passport.config.js';
 import { initializePassportJWT } from "./config/jwt.passport.js";
 import cookieParser from "cookie-parser";
 import userModel from "./daos/models/users.model.js";
+import dotenv from "dotenv";
+
+
+dotenv.config({path: './.env'})
+
 
 const productsManager = new ProductManager();
 const cartManager = new CartManager();

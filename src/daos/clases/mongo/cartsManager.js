@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import { cartsModel } from "../../models/carts.model.js";
 import ProductManager from "./productsManager.js";
+///los llamados de un dao a otro dao no se recomiendan. Va en services
 
 const productManager = new ProductManager()
 
 export default class CartManager {
-    connection = mongoose.connect('mongodb+srv://valdeznoelia26:coderhouse@cluster0.vxwlhyd.mongodb.net/ecommerce?retryWrites=true&w=majority', { serverSelectionTimeoutMS: 30000 })
+    connection = mongoose.connect(process.env.MONGO_URL, { serverSelectionTimeoutMS: 30000 })
   
     addCart = async () => {
         const result = await cartsModel.create({products: []})

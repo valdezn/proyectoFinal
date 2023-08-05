@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import userModel from "../../models/users.model.js";
 
+
 export default class UserManager{
-    connection = mongoose.connect('mongodb+srv://valdeznoelia26:coderhouse@cluster0.vxwlhyd.mongodb.net/ecommerce?retryWrites=true&w=majority')
+    connection = mongoose.connect(process.env.MONGO_URL)
 
     getUser = async (email) => {
         const user = await userModel.find({'email': email})
@@ -12,7 +13,7 @@ export default class UserManager{
 
     updateUser = async (email) => {
         const user = await this.getUser(email)
-        if (user === 'adminCoder@coder.com') {
+        if (user === process.env.ADMIN_EMAIL) {
             await userModel.findOneAndUpdate(
                 {email: email},
                 {$set: {role: 'admin'}}

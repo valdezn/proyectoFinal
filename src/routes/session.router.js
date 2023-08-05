@@ -1,46 +1,21 @@
 import { Router } from "express";
-import userModel from "../daos/models/users.model.js";
-import UserManager from "../daos/clases/mongo/userManager.js";
-import bcrypt from 'bcrypt';
 import passport from "passport";
-import jwt from "jsonwebtoken";
-import CartManager from "../daos/clases/mongo/cartsManager.js";
-import initializePassport from "../config/passport.config.js";
+import sessionController from "../controllers/session.controller.js";
 
-const cartsManager = new CartManager()
-const users = new UserManager();
+
 const router = Router();
 
-router.post("/register",  passport.authenticate('register', {session: false}), async (req, res) => {
-  res.send({ status: "success", message: "usuario  registrado" });
-});
 
+router.post('/register', passport.authenticate('register', { session: false }), sessionController.registerUser);
 
-router.post('/login', passport.authenticate('login', {session: false}), async (req, res) => {
-  let token = jwt.sign({email: req.body.email}, "coderSecret", {
-    expiresIn: "24h",
-  });
+router.post('/login', passport.authenticate('login', { session: false }), sessionController.loginUser);
 
-  const user = req.user; // Accedo al usuario autenticado desde req.user
-  
-  const passwordMatch = bcrypt.compare(req.body.password, user.password);
-  if (!passwordMatch) return res.redirect('/api/login');
-  
-  res
-  .cookie("coderCookie", token, {httpOnly: true})
-  .redirect('/products');
-});
+// Ruta para obtener información del usuario actual
+router.get('/current', passport.authenticate('jwt', { session: false }), sessionController.getCurrentUser);
 
-router.get('/current', passport.authenticate('jwt', {session: false}), (req,res) => {
-  res.send(req.user);
-});
+router.get('/logout', sessionController.logoutUser);
 
-
-router.get('/logout', (req, res) => {
-    res.clearCookie('jwt');
-    res.redirect('/login'); 
-});
-
+/*
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), (req, res) => {});
 
 router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), async (req, res)=>{
@@ -54,13 +29,13 @@ router.get('/githubcallback', passport.authenticate('github', {failureRedirect: 
   };
   req.session.userName = userName;
 
-  if (user.email === 'adminCoder@coder.com') {
+  if (user.email === process.env.ADMIN_EMAIL) {
     req.session.admin = true;
   } else {
     req.session.admin = false;
-  }
+  
 
   res.redirect('/products')
-} )
+})*/
 
 export default router

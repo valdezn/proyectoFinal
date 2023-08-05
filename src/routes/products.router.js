@@ -1,19 +1,15 @@
 import { Router } from "express";
 import ProductManager from "../daos/clases/mongo/productsManager.js";
 import __dirname from "../utils.js"
-
+import ProductController from "../controllers/products.controller.js";
 
 const productManager = new ProductManager()
+const productController = new ProductController()
 const router = Router();
 
 router.get('/', async (req, res) => {
     try{
-        let limit = Number(req.query.limit) || 10
-        let page = Number(req.query.page)
-        let sort = Number(req.query.sort)
-        let filter = req.query.filter
-        let filterVal = req.query.filterVal
-        let products = await productManager.getProducts(limit, page, sort, filter, filterVal)
+        let products = await productController.getProductsController(req)
         res.send({products})
     } catch (error) {
         console.log('Productos no encontrados: ' +error)
@@ -21,14 +17,14 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:pid', async(req, res)=>{
-    const product = await productManager.getProductById(req.params.pid)
+    const product = await productController.getProductByIdController(req.params.pid)
     res.send(product)
 })
 
 router.post('/', async (req, res) => {
     const nProduct = req.body
-    await productManager.addProduct(nProduct)
-    const products = await productManager.getProducts();
+    await productController.addProductController(nProduct)
+    const products = await productManager.getProductsDao();
 
     req.socketServer.sockets.emit("updatedProducts", products)
     res.send({status: "success"})
