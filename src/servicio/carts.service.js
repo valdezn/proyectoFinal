@@ -8,7 +8,7 @@ export default class CartService {
     }
   
     async createCartService() {
-      const result = await this.cartDao.createCart();
+      const result = await this.cartDao.addCart();
       return result;
     }
   
@@ -22,7 +22,7 @@ export default class CartService {
   
     async addProductToCartService(cid, pid) {
       const product = await this.productService.getProductsByIdService(pid);
-      const result = await this.cartDao.addProductToCart(cid, product);
+      const result = await this.cartDao.addProductInCart(cid, product);
       return result;  
   }
   }

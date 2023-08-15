@@ -2,6 +2,8 @@ import { Router } from "express";
 import ProductManager from "../daos/clases/mongo/productsManager.js";
 import __dirname from "../utils.js"
 import ProductController from "../controllers/products.controller.js";
+import passport from "passport";
+import { roleMiddlewareAdmin } from "./middlewares/role.middleware.js";
 
 const productManager = new ProductManager()
 const productController = new ProductController()
@@ -21,7 +23,8 @@ router.get('/:pid', async(req, res)=>{
     res.send(product)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', passport.authenticate('jwt', {session: false}),
+    roleMiddlewareAdmin, async (req, res) => {
     const nProduct = req.body
     await productController.addProductController(nProduct)
     const products = await productManager.getProductsDao();
@@ -30,9 +33,10 @@ router.post('/', async (req, res) => {
     res.send({status: "success"})
 })
 
-router.delete('/:pid', async (req, res) => {
+router.delete('/:pid', passport.authenticate('jwt', {session: false}),
+    roleMiddlewareAdmin, async (req, res) => {
     const pid = req.params.pid
-    res.send(await productManager.deleteProduct(pid))
+    res.send(await productManager.deleteProductBySotck(pid))
 })
 
 router.put('/:pid', async (req, res) => {

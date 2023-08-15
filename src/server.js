@@ -4,6 +4,7 @@ import {Server} from "socket.io";
 import __dirname from "./utils.js";
 import viewsRouter from "./routes/views.router.js";
 import routerProducts from "./routes/products.router.js";
+import routerChat from "./routes/chat.router.js";
 import routerCarts from "./routes/carts.router.js";
 import ProductManager from "./daos/clases/mongo/productsManager.js";
 import CartManager from "./daos/clases/mongo/cartsManager.js";
@@ -14,13 +15,14 @@ import passport from "passport";
 import initializePassport from './config/passport.config.js';
 import { initializePassportJWT } from "./config/jwt.passport.js";
 import cookieParser from "cookie-parser";
-import userModel from "./daos/models/users.model.js";
 import dotenv from "dotenv";
+import ChatManager from "./daos/clases/mongo/chatManager.js";
 
 
 dotenv.config({path: './.env'})
 
 
+const chatManager = new ChatManager();
 const productsManager = new ProductManager();
 const cartManager = new CartManager();
 const app = Express();
@@ -76,11 +78,12 @@ socketServer.on("connection", (socket) => {
     //recibo el id del producto a eliminar
     socket.on("deleteProduct", async (product) => {  
       const productId = product
-      const result = await productsManager.deleteProduct(productId);
+      const result = await productsManager.deleteProductBySotck(productId);
       
       //envío a todos los sockets conectados la lista actualizada
-      const updatedProducts = await productsManager.getProducts();
-      const newProducts = updatedProducts.docs
+      const updatedProducts = await productsManager.getProductsDao();
+      const newProducts = await updatedProducts.docs
+      console.log(newProducts)
       socketServer.emit("updatedProducts", newProducts);
     });
   
@@ -92,6 +95,17 @@ socketServer.on("connection", (socket) => {
       console.error('Error al agregar el producto al carrito:', error);
     }
   });
+
+  socket.on("message", async (data) => {
+    console.log(data)
+    mensajes.push(data);
+    await chatManager.messagesSave(data);
+    socketServer.emit("imprimir", mensajes);
+  });
+  
+  socket.on('authenticatedUser', (data)=>{
+    socket.broadcast.emit('newUserAlert', data)
+  })
 });
   
 
@@ -100,7 +114,7 @@ app.use((req, res, next) => {
   next()
 });
 
-
+app.use('/chat/', routerChat);
 app.use('/api/sessions', sessionRouter)
 app.use('/', viewsRouter);
 app.use('/api/products/', routerProducts);

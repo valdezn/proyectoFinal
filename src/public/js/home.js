@@ -50,7 +50,7 @@ addProductBtn.addEventListener('click', function(e) {
       price.textContent = "Price: " + product.price;
       li.appendChild(price);
       const category = document.createElement("p");
-      price.textContent = "Category: " + product.category;
+      category.textContent = "Category: " + product.category;
       li.appendChild(category);
       const thumbnail = document.createElement("p");
       thumbnail.textContent = "Thumbnail: " + product.thumbnail;
@@ -62,7 +62,7 @@ addProductBtn.addEventListener('click', function(e) {
       stock.textContent = "Stock: " + product.stock;
       li.appendChild(stock);
       const id = document.createElement("p");
-      stock.textContent = "ID: " + product._id;
+      id.textContent = "ID: " + product._id;
       li.appendChild(id);        
       productList.appendChild(li);
     });

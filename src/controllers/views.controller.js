@@ -37,8 +37,9 @@ export default class ProductController {
         sort: sort
         };
     
-        const userName = req.user.email;
-        const userLog = await userModel.findOne({email: userName})
+        const userName = req.user;
+        const userLog = await userModel.findOne({email: userName.user.email})
+        const email = userLog.email
         const rol = userLog.role;
         const firstName = userLog.first_name;
         const cartId = userLog.cartId;
@@ -61,7 +62,7 @@ export default class ProductController {
             hasPrevPage: result.hasPrevPage
         };
         
-        res.render('home.handlebars', {...response, userName, firstName, rol, cartId});
+        res.render('home.handlebars', {...response, email, firstName, rol, cartId});
         } catch (error) {
         console.error('Error al obtener los productos:', error);
         res.status(500).send('Error al obtener los productos');

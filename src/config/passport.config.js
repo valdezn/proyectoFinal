@@ -23,7 +23,7 @@ const initializePassport = () => {
                 const cartId = newCart._id
                 
                 let rol = 'user'
-                if (username === 'adminCoder@coder.com') {
+                if (username === process.env.ADMIN_EMAIL) {
                     rol = 'admin'
                 }
 
@@ -57,11 +57,11 @@ const initializePassport = () => {
             return done(error);
         }
     }))
-/*
+
     passport.use('github', new GitHubStrategy({
-        clientID: '',
-        clientSecret: '',
-        callbackURL: ''
+        clientID: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        callbackURL: process.env.CALLBACK_URL
     }, async (accessToken, refreshToken, profile, done) => {
         //console.log(profile)
         let user = await userModel.findOne({first_name: profile._json.name})
@@ -82,7 +82,7 @@ const initializePassport = () => {
             done(null, user)
         }
     }))
-    */
+    
     passport.serializeUser(async (user, done) => {
         done(null, user._id);
       })

@@ -3,7 +3,8 @@ import { productModel } from '../daos/models/products.model.js';
 import __dirname from "../utils.js";
 import { cartsModel } from '../daos/models/carts.model.js';
 import ProductController from '../controllers/views.controller.js'; 
-import passport from 'passport';
+import passport from "passport";
+import sessionController from '../controllers/session.controller.js';
 
 const productController = new ProductController()
 
@@ -40,7 +41,7 @@ router.get('/carts/:cid', async (req, res) => {
     }
   });
 
-router.get('/realtimeproducts', async (req, res) => { //
+  router.get('/realtimeproducts', passport.authenticate('jwt', { session: false }), async (req, res) => { //
     let page = parseInt(req.query.page);
     if(!page) page=1;
     let result = await productModel.paginate({},{page,lean:true}) //lean hace que llegue el doc a handlebars como plain object y no como document.

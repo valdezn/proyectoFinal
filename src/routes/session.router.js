@@ -10,14 +10,13 @@ router.post('/register', passport.authenticate('register', { session: false }), 
 
 router.post('/login', passport.authenticate('login', { session: false }), sessionController.loginUser);
 
-// Ruta para obtener información del usuario actual
 router.get('/current', passport.authenticate('jwt', { session: false }), sessionController.getCurrentUser);
 
 router.get('/logout', sessionController.logoutUser);
 
-/*
-router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), (req, res) => {});
 
+router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), (req, res) => {});
+//EN REVISIÓN
 router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), async (req, res)=>{
   console.log('Success')
   const user = req.user
@@ -36,6 +35,7 @@ router.get('/githubcallback', passport.authenticate('github', {failureRedirect: 
   
 
   res.redirect('/products')
-})*/
+  }
+})
 
 export default router
