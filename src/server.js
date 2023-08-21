@@ -17,7 +17,8 @@ import { initializePassportJWT } from "./config/jwt.passport.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import ChatManager from "./daos/clases/mongo/chatManager.js";
-
+import routerMocks from './routes/mocks.router.js'
+import { errorMiddleware } from "./servicio/error/error.middleware.js";
 
 dotenv.config({path: './.env'})
 
@@ -117,5 +118,7 @@ app.use((req, res, next) => {
 app.use('/chat/', routerChat);
 app.use('/api/sessions', sessionRouter)
 app.use('/', viewsRouter);
+app.use(errorMiddleware)
 app.use('/api/products/', routerProducts);
 app.use('/api/carts/', routerCarts);
+app.use('/mockingproducts/', routerMocks)
