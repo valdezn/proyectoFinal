@@ -35,30 +35,34 @@ router.get('/:pid', async(req, res)=>{
 })
 
 router.post('/', passport.authenticate('jwt', {session: false}),
-    roleMiddlewareAdmin, async (req, res) => {
-    const {name, description, price, thumbnail, category, code, stock} = req.body
-    if(!name || !description || !price || !thumbnail || !category || !code || !stock){
-        CustomError.createError({
-            name: "product creation error",
-            cause: generateErrorInfo({
-                name,
-                description,
-                price,
-                thumbnail,
-                category,
-                code,
-                stock
-            }),
-            message: "error trying to create product",
-            code: ErrorEnum.INVALID_TYPES_ERROR,
-        })
-       return
-    }
-    await productController.addProductController({name, description, price, thumbnail, category, code, stock})
-    const products = await productManager.getProductsDao();
-
-    req.socketServer.sockets.emit("updatedProducts", products)
-    res.send({status: "success"})
+    roleMiddlewareAdmin, async (req, res, next) => {
+        try{
+            const {name, description, price, thumbnail, category, code, stock} = req.body
+            if(!name || !description || !price || !thumbnail || !category || !code || !stock){
+                CustomError.createError({
+                    name: "product creation error",
+                    cause: generateErrorInfo({
+                        name,
+                        description,
+                        price,
+                        thumbnail,
+                        category,
+                        code,
+                        stock
+                    }),
+                    message: "error trying to create product",
+                    code: ErrorEnum.INVALID_TYPES_ERROR,
+                })
+            }
+            await productController.addProductController({name, description, price, thumbnail, category, code, stock})
+            const products = await productManager.getProductsDao();
+            
+            req.socketServer.sockets.emit("updatedProducts", products)
+            res.send({status: "success"})
+        }catch (error){
+            //console.log(`ERROR ${error}`)
+            return next(error)
+        }
 })
 
 router.delete('/:pid', passport.authenticate('jwt', {session: false}),

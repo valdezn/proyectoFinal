@@ -4,7 +4,7 @@ export default class CustomError {
       error.name = name;
       error.cause = cause;
       error.code = code;
-      //console.log(error)
+      //console.log(`createError: ${error}`)
       throw error;
     }
   }

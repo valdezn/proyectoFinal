@@ -118,7 +118,7 @@ app.use((req, res, next) => {
 app.use('/chat/', routerChat);
 app.use('/api/sessions', sessionRouter)
 app.use('/', viewsRouter);
-app.use(errorMiddleware)
 app.use('/api/products/', routerProducts);
+app.use(errorMiddleware)
 app.use('/api/carts/', routerCarts);
 app.use('/mockingproducts/', routerMocks)
