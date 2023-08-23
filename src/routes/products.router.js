@@ -7,6 +7,7 @@ import { roleMiddlewareAdmin } from "./middlewares/role.middleware.js";
 import { ErrorEnum } from "../servicio/error.enum.js";
 import { generateErrorInfo } from "../servicio/info.js";
 import CustomError from "../servicio/customError.js";
+import mongoose from "mongoose";
 
 const productManager = new ProductManager()
 const productController = new ProductController()
@@ -21,17 +22,21 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:pid', async(req, res)=>{
-    if (isNaN(req.params.pid)){
-        CustomError.createError({
-            name: 'id is not a number',
-            cause: `the given id is not a number`,
-            message: 'cannot get users',
-            code: ErrorEnum.PARAM_ERROR
-        })
+router.get('/:pid', async(req, res, next)=>{
+    try{
+        if (!mongoose.isValidObjectId(req.params.pid)){
+            CustomError.createError({
+                name: 'id is not a valid',
+                cause: `the given id is not a object id Mongo`,
+                message: 'cannot get product',
+                code: ErrorEnum.PARAM_ERROR
+            })
+        }
+        const product = await productController.getProductByIdController(req.params.pid)
+        res.send(product)
+    }catch(error){
+        return next(error)
     }
-    const product = await productController.getProductByIdController(req.params.pid)
-    res.send(product)
 })
 
 router.post('/', passport.authenticate('jwt', {session: false}),
