@@ -1,15 +1,45 @@
-import { productModel } from "../daos/models/products.model.js";
-import userModel from "../daos/models/users.model.js";
+import ProductManager from "../daos/clases/mongo/productsManager.js";
 import ProductService from "../servicio/products.service.js";
+import { ErrorEnum } from "../servicio/error.enum.js";
+import CustomError from "../servicio/customError.js";
+import { generateErrorInfo } from "../servicio/info.js";
+import mongoose from "mongoose";
+
 
 export default class ProductController {
     constructor() {
     this.productService = new ProductService();
+    this.productManager = new ProductManager();
     }
 
-    async addProductController(product) {
-        const result = await this.productService.addProductService(product);
-        return result;
+    addProductController = async (req, res, next) => {
+        try{
+            const {name, description, price, thumbnail, category, code, stock} = req.body
+            if(!name || !description || !price || !thumbnail || !category || !code || !stock){
+                CustomError.createError({
+                    name: "product creation error",
+                    cause: generateErrorInfo({
+                        name,
+                        description,
+                        price,
+                        thumbnail,
+                        category,
+                        code,
+                        stock
+                    }),
+                    message: "error trying to create product",
+                    code: ErrorEnum.INVALID_TYPES_ERROR,
+                })
+            }
+            await this.productService.addProductService({name, description, price, thumbnail, category, code, stock})
+            const products = await this.productManager.getProductsDao();
+            
+            req.socketServer.sockets.emit("updatedProducts", products)
+            res.send({status: "success"})
+        }catch (error){
+            console.log(`ERROR ${error}`)
+            return next(error)
+        }
     }
 
     async getProductsController (req, res) {
@@ -28,13 +58,20 @@ export default class ProductController {
         return result;
     }
 
-    async getProductByIdController(id) {
-        if(!id){
-            return {
-                error: 'id vacio'
+    getProductByIdController = async (req, res, next) => {
+        try{
+            if (!mongoose.isValidObjectId(req.params.pid)){
+                CustomError.createError({
+                    name: 'id is not a valid',
+                    cause: `the given id is not a object id Mongo`,
+                    message: 'cannot get product',
+                    code: ErrorEnum.PARAM_ERROR
+                })
             }
+            const product = await this.getProductByIdService(req.params.pid)
+            res.send(product)
+        }catch(error){
+            return next(error)
         }
-        const result = await this.productService.getProductsByIdService(id);
-        return result;
-      }
+    }
 }
