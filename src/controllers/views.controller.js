@@ -64,7 +64,8 @@ export default class ProductController {
         
         res.render('home.handlebars', {...response, email, firstName, rol, cartId});
         } catch (error) {
-        console.error('Error al obtener los productos:', error);
+        //console.error('Error al obtener los productos:', error);
+        req.logger.error(`Error en el método ${req.method} llamando a 'getProductsController'. ERROR: ${error}`)
         res.status(500).send('Error al obtener los productos');
         }
     }

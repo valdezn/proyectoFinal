@@ -37,7 +37,8 @@ export default class ProductController {
             req.socketServer.sockets.emit("updatedProducts", products)
             res.send({status: "success"})
         }catch (error){
-            console.log(`ERROR ${error}`)
+            //console.log(`ERROR ${error}`)
+            req.logger.error((`Error en el método ${req.method} llamando a 'addProductController'. ERROR: ${error}`))
             return next(error)
         }
     }
@@ -68,9 +69,10 @@ export default class ProductController {
                     code: ErrorEnum.PARAM_ERROR
                 })
             }
-            const product = await this.getProductByIdService(req.params.pid)
+            const product = await this.productService.getProductsByIdService(req.params.pid)
             res.send(product)
         }catch(error){
+            req.logger.error((`Error en el método ${req.method} llamando a 'getProductByIdController'. ERROR: ${error}`))
             return next(error)
         }
     }

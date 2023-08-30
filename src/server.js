@@ -19,6 +19,8 @@ import dotenv from "dotenv";
 import ChatManager from "./daos/clases/mongo/chatManager.js";
 import routerMocks from './routes/mocks.router.js'
 import { errorMiddleware } from "./servicio/error/error.middleware.js";
+import { addLogger } from "./config/logger.config.js";
+import routerLogger from "./routes/logger.router.js";
 
 dotenv.config({path: './.env'})
 
@@ -27,7 +29,6 @@ const chatManager = new ChatManager();
 const productsManager = new ProductManager();
 const cartManager = new CartManager();
 const app = Express();
-
 /*
 app.use(
   session({
@@ -39,12 +40,12 @@ app.use(
     resave: true,
     saveUninitialized: false,
   })
-);
-*/
-
-initializePassport();
-initializePassportJWT();
-app.use(passport.initialize());
+  );
+  */
+ 
+ initializePassport();
+ initializePassportJWT();
+ app.use(passport.initialize());
 app.use(cookieParser());
 //app.use(passport.session());
 
@@ -74,19 +75,19 @@ socketServer.on("connection", (socket) => {
   console.log("conected " + socket.id)
   //recibo el producto nuevo 
   socket.on('addProduct', async (product) => {     
-      const result = await productsManager.addProduct(product);
-    });
-    //recibo el id del producto a eliminar
-    socket.on("deleteProduct", async (product) => {  
-      const productId = product
-      const result = await productsManager.deleteProductBySotck(productId);
-      
-      //envío a todos los sockets conectados la lista actualizada
-      const updatedProducts = await productsManager.getProductsDao();
-      const newProducts = await updatedProducts.docs
-      console.log(newProducts)
-      socketServer.emit("updatedProducts", newProducts);
-    });
+    const result = await productsManager.addProduct(product);
+  });
+  //recibo el id del producto a eliminar
+  socket.on("deleteProduct", async (product) => {  
+    const productId = product
+    const result = await productsManager.deleteProductBySotck(productId);
+    
+    //envío a todos los sockets conectados la lista actualizada
+    const updatedProducts = await productsManager.getProductsDao();
+    const newProducts = await updatedProducts.docs
+    console.log(newProducts)
+    socketServer.emit("updatedProducts", newProducts);
+  });
   
   socket.on('addToCart', async (cartId, productId) => {
     try {
@@ -96,7 +97,7 @@ socketServer.on("connection", (socket) => {
       console.error('Error al agregar el producto al carrito:', error);
     }
   });
-
+  
   socket.on("message", async (data) => {
     console.log(data)
     mensajes.push(data);
@@ -108,12 +109,15 @@ socketServer.on("connection", (socket) => {
     socket.broadcast.emit('newUserAlert', data)
   })
 });
-  
+
 
 app.use((req, res, next) => {
   req.socketServer = socketServer;
   next()
 });
+
+app.use(addLogger);
+app.use('/loggerTest/', routerLogger);
 
 app.use('/chat/', routerChat);
 app.use('/api/sessions', sessionRouter)

@@ -26,6 +26,7 @@ export default class ProductService {
     const result = await this.productManager.getProductById(id);
 
     if (!result) {
+      req.logger.error((`Error en el método ${req.method} llamando a 'getProductByIdService'.`))
       return {
         error: "producto no existe",
       };

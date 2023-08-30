@@ -28,7 +28,8 @@ export default class CartManager {
 
             return result;
         } catch (error) {
-            console.log(error);
+          req.logger.error((`Error en el método ${req.method} llamando a 'getCartById'. ERROR: ${error}`))
+          //console.log(error);
         }
     };
   
@@ -56,7 +57,8 @@ export default class CartManager {
           await cart.save();
           return "Status: success."
         } catch (error) {
-          console.log(error);
+          req.logger.error((`Error en el método ${req.method} llamando a 'addProductInCart'. ERROR: ${error}`))
+          //console.log(error);
         }
     };
     

@@ -1,0 +1,9 @@
+{"level":"error","message":""}
+{"level":"error","message":"Error en el método POST en /"}
+{"level":"error","message":"Error en el método POST llamando a \"addProductController."}
+{"level":"error","message":"Error en el método POST llamando a \"addProductController.\""}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController.'"}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: product creation error: error trying to create product"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: id is not a valid: cannot get product"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: TypeError: this.getProductByIdService is not a function"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: TypeError: this.getProductsByIdService is not a function"}

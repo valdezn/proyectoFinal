@@ -105,7 +105,8 @@ router.get('/:cid/purchase', passport.authenticate('jwt', {session: false}), asy
     // Devuelve respuesta con productos comprados y no comprados
     res.json({ purchasedProducts, failedProducts });
   } catch (error) {
-    console.error(error);
+    req.logger.error((`Error en el método ${req.method} llamando a ''. ERROR: ${error}`))
+    //console.error(error);
     res.status(500).json({ error: 'Error al procesar la compra.' });
   }
 });
