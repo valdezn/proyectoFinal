@@ -11,7 +11,7 @@ const customLevelOptions = {
     },
     colors: {
       fatal: 'red',
-      error: 'orange',
+      error: 'magenta',
       warning: 'yellow',
       info: 'blue',
       http: 'blue',
@@ -25,10 +25,10 @@ const devLogger = winston.createLogger({levels: customLevelOptions.levels,
 
 const prodLogger = winston.createLogger({levels: customLevelOptions.levels,
     transports: [new winston.transports.Console({level: "info",
-    /*format: winston.format.combine(
+    format: winston.format.combine(
         winston.format.colorize({colors: customLevelOptions.colors}),
         winston.format.simple()
-    )*/}),
+    )}),
     new winston.transports.File({filename: "./errors.log", level: "error"})]
 })
 
@@ -36,5 +36,4 @@ export const addLogger = (req, res, next) => {
     req.logger = process.env.ENVIRONMENT == 'PRODUCTION' ? prodLogger : devLogger;
     //req.logger.error(`Error en el método ${req.method} en ${req.url}`);
     next()
-}
-  
+}  
