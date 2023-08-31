@@ -10,16 +10,11 @@ const productManager = new ProductManager()
 const productController = new ProductController()
 const router = Router();
 
-router.get('/', async (req, res) => {
-    try{
-        let products = await productController.getProductsController(req)
-        res.send({products})
-    } catch (error) {
-        console.log('Productos no encontrados: ' +error)
-    }
+router.get('/', async (req, res, next) => {
+    await productController.getProductsController(req, res, next)
 })
 
-router.get('/:pid', async(req, res, next)=>{
+router.get('/:pid', async (req, res, next)=>{
     await productController.getProductByIdController(req, res, next)
 })
 
@@ -29,15 +24,12 @@ router.post('/', passport.authenticate('jwt', {session: false}),
 })
 
 router.delete('/:pid', passport.authenticate('jwt', {session: false}),
-    roleMiddlewareAdmin, async (req, res) => {
-    const pid = req.params.pid
-    res.send(await productManager.deleteProductBySotck(pid))
+    roleMiddlewareAdmin, async (req, res, next) => {
+        await productController.deleteProductByStockController(req, res, next)
 })
 
-router.put('/:pid', async (req, res) => {
-    const pid = req.params.pid;
-    const updateProduct = req.body;
-    res.send(await productManager.updateProduct(pid, updateProduct))
+router.put('/:pid', async (req, res, next) => {
+    await productController.updateProductController(req, res, next)
 })
 
 export default router;

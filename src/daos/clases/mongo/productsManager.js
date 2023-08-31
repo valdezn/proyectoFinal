@@ -53,13 +53,12 @@ export default class ProductManager {
   
   deleteProductBySotck = async (id) => {
     const productId = await this.getProductById(id)
-    if (productId === `El producto con id: '${id}' no existe.`) return `El producto con id: '${id}' que intenta eliminar no existe.`
+    //if (productId === `El producto con id: '${id}' no existe.`) return `El producto con id: '${id}' que intenta eliminar no existe.`
     if(productId.stock > 0){
       const productStock = productId.stock - 1
       const result = await productModel.updateOne({_id: id}, {$set: {stock: productStock}})
-      const product = await this.getProductById(id)
-      //console.log(product)
-      return `Se ha eliminado una unidad del producto ${id}.`
+      //const product = await this.getProductById(id)
+      return
     }
   }
 }

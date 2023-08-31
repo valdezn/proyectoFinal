@@ -14,7 +14,7 @@ export default class ProductService {
       filterVal
     );
     return result;
-    }
+  }
 
   async addProductService(product) {
     const result = await this.productManager.addProduct(product);
@@ -32,5 +32,16 @@ export default class ProductService {
       };
     }
     return result;
+  }
+
+  async updateProductService(id, product) {
+    const result = await this.productManager.updateProduct(id, product);
+    return result;
+  }
+
+  async deleteProductBySotckService(pid) {
+    console.log(pid)
+    const result = await this.productManager.deleteProductBySotck(pid)
+    return result
   }
 }

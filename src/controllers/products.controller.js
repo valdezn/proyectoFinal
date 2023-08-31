@@ -43,7 +43,7 @@ export default class ProductController {
         }
     }
 
-    async getProductsController (req, res) {
+    async getProductsController (req, res, next) {
         let limit = Number(req.query.limit) || 10
         let page = Number(req.query.page)
         let sort = Number(req.query.sort)
@@ -56,7 +56,8 @@ export default class ProductController {
           filter,
           filterVal
         );
-        return result;
+        res.send(result)
+        return;
     }
 
     getProductByIdController = async (req, res, next) => {
@@ -73,6 +74,54 @@ export default class ProductController {
             res.send(product)
         }catch(error){
             req.logger.error((`Error en el método ${req.method} llamando a 'getProductByIdController'. ERROR: ${error}`))
+            return next(error)
+        }
+    }
+
+    updateProductController = async (req, res, next) => {
+        try{
+            const productId = req.params.pid
+            const {name, description, price, thumbnail, category, code, stock} = req.body
+            if(!name || !description || !price || !thumbnail || !category || !code || !stock){
+                CustomError.createError({
+                    name: "product update error",
+                    cause: generateErrorInfo({
+                        name,
+                        description,
+                        price,
+                        thumbnail,
+                        category,
+                        code,
+                        stock
+                    }),
+                    message: "error trying to update product",
+                    code: ErrorEnum.INVALID_TYPES_ERROR,
+                })
+            }
+            await this.productService.updateProductService(productId, {name, description, price, thumbnail, category, code, stock})
+            
+            res.send({status: "success"})
+        }catch (error){
+            //console.log(`ERROR ${error}`)
+            req.logger.error((`Error en el método ${req.method} llamando a 'updateProductController'. ERROR: ${error}`))
+            return next(error)
+        }
+    }
+
+    deleteProductByStockController = async (req, res, next) => {
+        try{
+            if (!mongoose.isValidObjectId(req.params.pid)){
+                CustomError.createError({
+                    name: 'id is not a valid',
+                    cause: `the given id is not a object id Mongo`,
+                    message: 'cannot delete product',
+                    code: ErrorEnum.PARAM_ERROR
+                })
+            }
+            const product = await this.productService.deleteProductBySotckService(req.params.pid)
+            res.send(`Se ha eliminado una unidad del producto ${req.params.pid}.`)
+        }catch(error){
+            req.logger.error((`Error en el método ${req.method} llamando a 'deleteProductByStockController'. ERROR: ${error}`))
             return next(error)
         }
     }

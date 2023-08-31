@@ -7,3 +7,10 @@
 {"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: id is not a valid: cannot get product"}
 {"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: TypeError: this.getProductByIdService is not a function"}
 {"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: TypeError: this.getProductsByIdService is not a function"}
+{"level":"error","message":"Error en el método PUT llamando a 'updateProductController'. ERROR: product update error: error trying to update product"}
+{"level":"error","message":"Error en el método PUT llamando a 'updateProductController'. ERROR: product update error: error trying to update product"}
+{"level":"error","message":"Error en el método PUT llamando a 'updateProductController'. ERROR: product update error: error trying to update product"}
+{"level":"error","message":"Error en el método PUT llamando a 'updateProductController'. ERROR: product update error: error trying to update product"}
+{"level":"error","message":"Error en el método PUT llamando a 'updateProductController'. ERROR: product update error: error trying to update product"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: ReferenceError: productManager is not defined"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: MongooseError: Operation `products.findOne()` buffering timed out after 10000ms"}
