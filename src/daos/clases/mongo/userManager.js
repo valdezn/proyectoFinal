@@ -7,11 +7,12 @@ export default class UserManager{
 
     getUser = async (email) => {
         const user = await userModel.find({'email': email})
+        console.log(user)
         if (!user) return `Usuario no encontrado.`
         return user
     }
 
-    updateUser = async (email) => {
+    updateUser = async (email, userRole) => {
         const user = await this.getUser(email)
         if (user === process.env.ADMIN_EMAIL) {
             await userModel.findOneAndUpdate(
@@ -21,8 +22,17 @@ export default class UserManager{
         } else {
             await userModel.findOneAndUpdate(
                 {email: email},
-                {$set: {role: 'usuario'}}
+                {$set: {role: userRole}}
             )
         }
+    }
+
+    updatePassword = async (email, newHashPassword) => {
+        const user = await this.getUser(email)
+        if (!user) return `Usuario no encontrado`
+        await userModel.findOneAndUpdate(
+                {email: email},
+                {$set: {password: newHashPassword}}
+        )
     }
 }

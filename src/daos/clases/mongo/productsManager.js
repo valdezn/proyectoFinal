@@ -34,6 +34,7 @@ export default class ProductManager {
 
   addProduct = async (product) => {
     const result = await productModel.create(product)
+    console.log(result)
     return result
   }
 

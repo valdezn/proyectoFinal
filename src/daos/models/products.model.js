@@ -24,8 +24,19 @@ const productsSchema = new mongoose.Schema({
     },
     stock: {
         type: Number
+    },
+    owner: {
+        type: String,
+        ref: 'users',
     }
 })
+
+productsSchema.pre('save', function (next) {
+    if (!this.owner) {
+        this.owner = 'admin';
+    }
+    next();
+});
 
 productsSchema.plugin(mongoosePaginate)
 

@@ -21,6 +21,7 @@ import routerMocks from './routes/mocks.router.js'
 import { errorMiddleware } from "./servicio/error/error.middleware.js";
 import { addLogger } from "./config/logger.config.js";
 import routerLogger from "./routes/logger.router.js";
+import routerEmail from "./routes/email.router.js";
 
 dotenv.config({path: './.env'})
 
@@ -126,3 +127,4 @@ app.use('/api/products/', routerProducts);
 app.use(errorMiddleware)
 app.use('/api/carts/', routerCarts);
 app.use('/mockingproducts/', routerMocks)
+app.use('/email/', routerEmail)

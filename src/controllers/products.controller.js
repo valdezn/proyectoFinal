@@ -14,7 +14,7 @@ export default class ProductController {
 
     addProductController = async (req, res, next) => {
         try{
-            const {name, description, price, thumbnail, category, code, stock} = req.body
+            const {name, description, price, thumbnail, category, code, stock, owner} = req.body
             if(!name || !description || !price || !thumbnail || !category || !code || !stock){
                 CustomError.createError({
                     name: "product creation error",
@@ -31,7 +31,13 @@ export default class ProductController {
                     code: ErrorEnum.INVALID_TYPES_ERROR,
                 })
             }
-            await this.productService.addProductService({name, description, price, thumbnail, category, code, stock})
+            
+            const newProduct = req.body
+            if(req.user.user.email != process.env.ADMIN_EMAIL){
+                newProduct.owner = req.user.user.email      
+            }
+
+            await this.productService.addProductService(newProduct)
             const products = await this.productManager.getProductsDao();
             
             req.socketServer.sockets.emit("updatedProducts", products)
@@ -118,6 +124,14 @@ export default class ProductController {
                     code: ErrorEnum.PARAM_ERROR
                 })
             }
+
+            const productOwner = await this.productService.getProductsByIdService(req.params.pid)
+            
+            if ( !(req.user.user.role === "admin" || product.owner === req.user.user.email) ) {
+                return res.status(403).
+                send({ status: "error", details: "You don't have access. You are not the product owner" })
+            }
+
             const product = await this.productService.deleteProductBySotckService(req.params.pid)
             res.send(`Se ha eliminado una unidad del producto ${req.params.pid}.`)
         }catch(error){

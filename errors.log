@@ -1,0 +1,21 @@
+{"level":"error","message":"Error de autorización en el método POST en /"}
+{"level":"error","message":"Error de autorización en el método POST en /"}
+{"level":"error","message":"Error de autorización en el método POST en /"}
+{"level":"error","message":"Error de autorización en el método POST en /"}
+{"level":"error","message":"Error de autorización en el método POST en /"}
+{"level":"error","message":"Error de autorización en el método POST en /"}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: ValidationError: owner: Path `owner` is required."}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: ReferenceError: req is not defined"}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"Error de autorización"}
+{"level":"error","message":"Error de autorización"}
+{"level":"error","message":"Error de autorización"}
+{"level":"error","message":"Error de autorización"}
+{"level":"error","message":"Error de autorización"}

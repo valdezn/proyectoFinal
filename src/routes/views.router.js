@@ -22,6 +22,16 @@ router.get('/login', (req, res) => {
   res.render('login');
 })
 
+router.get('/resetPassword', passport.authenticate('jwtRequestPassword', { session: false , failureRedirect: 'requestResetPassword'}), (req, res) => {
+  //sessionController.resetPassword;
+  res.render('resetPassword');
+})
+
+router.get('/requestResetPassword', (req, res) => {
+  //sessionController.requestResetPassword;
+  res.render('requestResetPassword');
+})
+
 router.get('/products', passport.authenticate('jwt', { session: false }), productController.getProductsController);
 
 

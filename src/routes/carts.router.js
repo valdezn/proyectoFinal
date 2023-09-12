@@ -43,14 +43,21 @@ router.post("/:cid/product/:pid", passport.authenticate('jwt', {session: false})
   verificarCarrito, async (req, res) => {
   let cartId = req.params.cid;
   let productId = req.params.pid;
-
-  const result = await cartController.addProductToCartController(
-    cartId,
-    productId
-  );
-
-  res.send({ status: "success", result });
-});
+  
+  if(productId.owner === req.user.email){
+    req.logger.error((`Error de autorización`))
+    res.send({status: "error", details: "you can't add owner product"})
+  }else{
+    try{
+      const result = await cartController.addProductToCartController(cartId, productId);
+      res.send({ status: "success", result });
+    }catch(e){
+      req.logger.error(`Error al agregar producto al carrito: ${e.message}`);
+      res.status(500).json({ status: "error", details: "Internal server error" });
+    }}
+  }
+)
+  
 
 router.delete("/:cid/product/:pid", async (req, res) => {
   let cartId = req.params.cid;

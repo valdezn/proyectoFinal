@@ -3,7 +3,8 @@ import ProductManager from "../daos/clases/mongo/productsManager.js";
 import __dirname from "../utils.js"
 import ProductController from "../controllers/products.controller.js";
 import passport from "passport";
-import { roleMiddlewareAdmin } from "./middlewares/role.middleware.js";
+import { multipleRoles, roleMiddlewareAdmin } from "./middlewares/role.middleware.js";
+import { roleMiddlewarePremium } from "./middlewares/role.middleware.js";
 
 
 const productManager = new ProductManager()
@@ -19,7 +20,7 @@ router.get('/:pid', async (req, res, next)=>{
 })
 
 router.post('/', passport.authenticate('jwt', {session: false}),
-    roleMiddlewareAdmin, async (req, res, next) => {
+    multipleRoles(['admin', 'premium']), async (req, res, next) => {
         await productController.addProductController(req, res, next)
 })
 

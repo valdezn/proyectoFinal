@@ -14,6 +14,12 @@ router.get('/current', passport.authenticate('jwt', { session: false }), session
 
 router.get('/logout', sessionController.logoutUser);
 
+router.post('/resetPassword', passport.authenticate('jwtRequestPassword', { session: false , failureRedirect: '/requestResetPassword'}), sessionController.resetPassword);
+
+router.post('/requestResetPassword', sessionController.requestResetPassword);
+
+router.get('/premium/', passport.authenticate('jwt', { session: false }), sessionController.updateUser);
+
 
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), (req, res) => {});
 //EN REVISIÓN
