@@ -4,6 +4,7 @@ import CartManager from "../daos/clases/mongo/cartsManager.js";
 import { verificarCarrito } from "./middlewares/carts.middleware.js";
 import passport from "passport";
 import TicketsController from "../controllers/tickets.controller.js";
+import ProductController from "../controllers/products.controller.js";
 import {v4 as uuid} from 'uuid';
 
 
@@ -12,7 +13,7 @@ const router = Router();
 let ticketsController = new TicketsController();
 let cartManager = new CartManager();
 let cartController = new CartController();
-
+let productController = new ProductController()
 
 router.get("/:cid", async (req, res) => {
   let id = req.params.cid;
@@ -40,25 +41,16 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/:cid/product/:pid", passport.authenticate('jwt', {session: false}),
-  verificarCarrito, async (req, res) => {
-  let cartId = req.params.cid;
-  let productId = req.params.pid;
-  
-  if(productId.owner === req.user.email){
-    req.logger.error((`Error de autorización`))
-    res.send({status: "error", details: "you can't add owner product"})
-  }else{
+  verificarCarrito, async (req, res, next) => {
     try{
-      const result = await cartController.addProductToCartController(cartId, productId);
+      const result = await cartController.addProductToCartController(req, res, next);
       res.send({ status: "success", result });
     }catch(e){
-      req.logger.error(`Error al agregar producto al carrito: ${e.message}`);
       res.status(500).json({ status: "error", details: "Internal server error" });
     }}
-  }
+  
 )
   
-
 router.delete("/:cid/product/:pid", async (req, res) => {
   let cartId = req.params.cid;
   let productId = req.params.pid;

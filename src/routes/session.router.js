@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import sessionController from "../controllers/session.controller.js";
+import { multipleRoles } from "./middlewares/role.middleware.js";
 
 
 const router = Router();
@@ -18,7 +19,7 @@ router.post('/resetPassword', passport.authenticate('jwtRequestPassword', { sess
 
 router.post('/requestResetPassword', sessionController.requestResetPassword);
 
-router.get('/premium/', passport.authenticate('jwt', { session: false }), sessionController.updateUser);
+router.get('/premium/', passport.authenticate('jwt', { session: false }), multipleRoles(['admin']), sessionController.updateUser);
 
 
 router.get('/github', passport.authenticate('github', { scope: ['user:email'] }), (req, res) => {});

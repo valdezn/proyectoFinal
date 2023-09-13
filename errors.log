@@ -19,3 +19,12 @@
 {"level":"error","message":"Error de autorización"}
 {"level":"error","message":"Error de autorización"}
 {"level":"error","message":"Error de autorización"}
+{"level":"error","message":"Error de autorización en el método DELETE en /64ffb306d80ec9963ea419fb"}
+{"level":"error","message":"Error de autorización en el método DELETE en /64ffb4055d88849b7de3e7f2"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: ReferenceError: Cannot access 'product' before initialization"}
+{"level":"error","message":"Error de autorización"}
+{"level":"error","message":"Error de autorización"}
+{"level":"error","message":"Error de autorización"}
+{"level":"fatal","message":"Test de Logger - Level: 'fatal'"}
+{"level":"error","message":"Test de Logger - Level: 'error'"}
+{"level":"error","message":"Error de autorización en el método GET en /premium"}

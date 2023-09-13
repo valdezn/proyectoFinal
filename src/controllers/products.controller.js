@@ -127,7 +127,7 @@ export default class ProductController {
 
             const productOwner = await this.productService.getProductsByIdService(req.params.pid)
             
-            if ( !(req.user.user.role === "admin" || product.owner === req.user.user.email) ) {
+            if ( !(req.user.user.role === "admin" || productOwner.owner === req.user.user.email) ) {
                 return res.status(403).
                 send({ status: "error", details: "You don't have access. You are not the product owner" })
             }

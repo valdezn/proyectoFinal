@@ -91,8 +91,7 @@ const requestResetPassword = async (req, res) => {
           <a href="http://localhost:8080/resetPassword?token=${token}"><button id="restart">Restart</button></a> 
         </div>`, 
       });
-      console.log(`en el try`)
-    return res.send({status: "success", message: "Password updated"})
+    return res.send({status: "success", message: "Se ha enviado mail recuperacion"})
   } catch (e) {
     return res.status(400).send({status: "error", error: e.message})
   }
@@ -105,7 +104,7 @@ const updateUser = async (req, res) => {
     return res.status(400).send({status: "error", error: "Incomplete credentials"})
   }
   await users.updateUser(email, role)
-  return res.send({status: "success", message: "Role updated"})
+  return res.send({status: "success", message: "Role updated. Los cambios se verán en el próximo login."})
 }
 
 const logoutUser = (req, res) => {
