@@ -24,8 +24,8 @@ export default class CartManager {
               return `El carrito con id: '${id}' no existe.`;
             }
             const result = await cartsModel.findOne({ _id: id }).populate('products.product'); ///
+            ///console.log(result)
             if (!result) return `El carrito con id: '${id}' no existe.`
-
             return result;
         } catch (error) {
           req.logger.error((`Error en el método ${req.method} llamando a 'getCartById'. ERROR: ${error}`))
@@ -46,7 +46,9 @@ export default class CartManager {
           if (typeof product === 'string') {
             return product; // El producto no existe, retornar el mensaje de error
           }
-          const productInCart = cart.products.find((product) => product.equals(pid))
+
+          const productInCart = cart.products.find((products) => product.equals(pid))
+
           if (productInCart === undefined) {
             cart.products.push({ product: product, quantity: 1 });
           } else {
