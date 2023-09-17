@@ -97,9 +97,9 @@ paths:
         description: 'Parametro de ruta para identificar el carrito'
         schema:
           type: String
-      - name: pid
+      - name: qid
         in: path
-        description: 'Parametro de ruta para identificar el producto'
+        description: 'Parametro de ruta para identificar el quantity de un producto'
         schema:
           type: String
       requestBody:
