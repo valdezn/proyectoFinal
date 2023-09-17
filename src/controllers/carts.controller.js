@@ -27,7 +27,6 @@ export default class CartController {
       let productId = req.params.pid;
 
       let productOwner = await this.productService.getProductsByIdService(productId) 
-      
       if(productOwner.owner === req.user.user.email){
         res.send({status: "error", details: "you can't add owner product"})
       }

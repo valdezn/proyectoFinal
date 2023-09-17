@@ -22,9 +22,11 @@ import { errorMiddleware } from "./servicio/error/error.middleware.js";
 import { addLogger } from "./config/logger.config.js";
 import routerLogger from "./routes/logger.router.js";
 import routerEmail from "./routes/email.router.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+
 
 dotenv.config({path: './.env'})
-
 
 const chatManager = new ChatManager();
 const productsManager = new ProductManager();
@@ -44,12 +46,26 @@ app.use(
   );
   */
  
- initializePassport();
- initializePassportJWT();
- app.use(passport.initialize());
+initializePassport();
+initializePassportJWT();
+app.use(passport.initialize());
 app.use(cookieParser());
 //app.use(passport.session());
-
+ 
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'Documentación ecommerce',
+      description: 'Documentación del proyecto ecommerce.'
+    }
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`]
+}
+ 
+const specs = swaggerJSDoc(swaggerOptions)
+ 
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
 app.use(Express.static(__dirname + '/public'));

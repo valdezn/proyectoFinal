@@ -1,0 +1,212 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Devuelve todos los carritos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/carts'
+        "500":
+          description: Se produjo un error.
+    post:
+      summary: Agrega un carrito.
+      tags:
+        - Carts
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/addCart"    
+  /api/carts/{uid}:
+    get:
+      summary: Obtiene un carrito por Id.
+      tags:
+        - Carts
+      parameters:
+      - name: uid
+        in: path
+        description: 'Parametro de ruta para identificar el carrito'
+        schema:
+          type: String
+      responses:
+        "200":
+          description: Devuelve el carrito con id solicitado
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/carts'
+        "500":
+          description: Se produjo un error
+    put:
+      summary: Actualiza un carrito por Id.
+      tags:
+        - Carts
+      parameters:
+      - name: uid
+        in: path
+        description: 'Parametro de ruta para identificar el carrito.'
+        schema:
+          type: String
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/updateCart"
+    delete:
+      summary: Elimina todos los productos de un carrito por Id.
+      tags:
+        - Carts
+      parameters:
+      - name: uid
+        in: path
+        description: 'Parametro de ruta para identificar el producto.'
+        schema:
+          type: String  
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agrega un producto al carrito.
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        description: 'Parametro de ruta para identificar el carrito'
+        schema:
+          type: String
+      - name: pid
+        in: path
+        description: 'Parametro de ruta para identificar el producto'
+        schema:
+          type: String
+    put:
+      summary: Actualiza la cantidad de unidades de un producto en el carrito.
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        description: 'Parametro de ruta para identificar el carrito'
+        schema:
+          type: String
+      - name: pid
+        in: path
+        description: 'Parametro de ruta para identificar el producto'
+        schema:
+          type: String
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/updateQuantity"
+    delete:
+      summary: Elimina una unidad de producto del carrito.
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        description: 'Parametro de ruta para identificar el carrito'
+        schema:
+          type: String
+      - name: pid
+        in: path
+        description: 'Parametro de ruta para identificar el producto'
+        schema:
+          type: String
+      responses:
+        "200":
+          description: Devuelve success
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/carts'
+        "500":
+          description: Se produjo un error
+  /api/carts/{uid}/purchase:
+    get:
+      summary: Ticket. Obtiene los productos que entraron en la compra y los que quedaron fuera por falta de stock.
+      tags:
+        - Carts
+      parameters:
+      - name: uid
+        in: path
+        description: 'Parametro de ruta para identificar el carrito'
+        schema:
+          type: String
+      responses:
+        "200":
+          description: Devuelve los productos que se compraron y los que no.
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/ticket'
+        "500":
+          description: Se produjo un error
+
+components:
+  schemas:
+    carts:
+      type: object
+      properties:
+        _id: 
+          type: ObjectId
+          description: id autogenerado por Mongo
+        products: 
+          type: [{}]
+      example:
+        _id: ObjectId('64ffb4055d88849b7de3e7f2')
+        products: []
+    updateCart:
+      type: object
+      properties:
+          products: 
+            type: [{
+              product:
+            }]
+          quantity:
+            type: number
+      example:
+        _id: ObjectId('64ffb4055d88849b7de3e7f2')
+        products: [{
+          product: {
+            _id: "649b91f30715b85820510f1c",
+            name: "AQX Glossy 13 x 18",
+            description: "200 Grs. - 20 hojas",
+            price: 2500,
+            thumbnail: [
+                "http://"
+            ],
+            category: "resma",
+            code: "F09",
+            stock: 10
+        }
+          },
+          {quantity: 2} 
+          ]
+    updateQuantity:
+      type: object
+      properties:
+        quantity:
+          type: number
+      example:
+        quantity: 10
+    ticket:
+      type: object
+      properties:
+        purchasedProducts: 
+          type: [String]
+        failedProducts: 
+          type: [String]
+      example:
+        purchasedProducts: []
+        failedProducts: []

@@ -1,0 +1,189 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Devuelve todos los productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/products'
+        "500":
+          description: Se produjo un error.
+    post:
+      summary: Agrega un producto.
+      tags:
+        - Products
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/addProduct"    
+  /api/products/{uid}:
+    get:
+      summary: Obtiene un producto por Id.
+      tags:
+        - Products
+      parameters:
+      - name: uid
+        in: path
+        description: 'Parametro de ruta para identificar el producto.'
+        schema:
+          type: String
+      responses:
+        "200":
+          description: Devuelve el producto con el id solicitado
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/products'
+        "500":
+          description: Se produjo un error
+    put:
+      summary: Actualiza un producto por Id.
+      tags:
+        - Products
+      parameters:
+      - name: uid
+        in: path
+        description: 'Parametro de ruta para identificar el producto.'
+        schema:
+          type: String
+      requestBody:
+        require: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/schemas/updateProduct"
+    delete:
+      summary: Elimina un producto por Id.
+      tags:
+        - Products
+      parameters:
+      - name: uid
+        in: path
+        description: 'Parametro de ruta para identificar el producto.'
+        schema:
+          type: String  
+
+
+components:
+  schemas:
+    products:
+      type: object
+      properties:
+        _id: 
+          type: ObjectId
+          description: id autogenerado por Mongo
+        name: 
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Breve descripción del producto
+        price:
+          type: Number
+          description: El valor del producto
+        thumbnail:
+          type: [String]
+          description: Url que contiene la imagen del producto
+        category:
+          type: String
+          description: Categoría a la que pertenece el producto
+        code:
+          type: String
+          description: Identifica el producto
+        stock:
+          type: Number
+          description: Es la cantidad de unidades disponibles
+        owner:
+          type: String
+          description: Trae el mail del usuario que creó el producto.
+      example:
+        _id: ObjectId('64ffb4055d88849b7de3e7f2')
+        name: 'AQX Glossy 10 x 15'
+        description: '200 Grs. - 20 hojas'
+        price: 650
+        thumbnail: [http://www.papeles.com/foto]
+        category: 'resmas'
+        code: 'F18'
+        stock: 50
+        owner: coder@house.com
+    updateProduct:
+      type: object
+      properties:
+        name: 
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Breve descripción del producto
+        price:
+          type: Number
+          description: El valor del producto
+        thumbnail:
+          type: [String]
+          description: Url que contiene la imagen del producto
+        category:
+          type: String
+          description: Categoría a la que pertenece el producto
+        code:
+          type: String
+          description: Identifica el producto
+        stock:
+          type: Number
+          description: Es la cantidad de unidades disponibles
+        owner:
+          type: String
+          description: Trae el mail del usuario que creó el producto.
+      example:
+        name: 'AQX Glossy 10 x 15'
+        description: '200 Grs. - 20 hojas'
+        price: 650
+        thumbnail: [http://www.papeles.com/foto]
+        category: 'resmas'
+        code: 'F18'
+        stock: 50
+        owner: coder@house.com
+    addProduct:
+      type: object
+      properties:
+        name: 
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Breve descripción del producto
+        price:
+          type: Number
+          description: El valor del producto
+        thumbnail:
+          type: [String]
+          description: Url que contiene la imagen del producto
+        category:
+          type: String
+          description: Categoría a la que pertenece el producto
+        code:
+          type: String
+          description: Identifica el producto
+        stock:
+          type: Number
+          description: Es la cantidad de unidades disponibles
+        owner:
+          type: String
+          description: Trae el mail del usuario que creó el producto.
+      example:
+        name: 'AQX Glossy 10 x 15'
+        description: '200 Grs. - 20 hojas'
+        price: 650
+        thumbnail: [http://www.papeles.com/foto]
+        category: 'resmas'
+        code: 'F18'
+        stock: 50
+        owner: coder@house.com

@@ -36,16 +36,17 @@ export default class CartManager {
     addProductInCart = async (cid, pid) => {
         try {
           const cart = await this.getCartById(cid);
+
           if (typeof cart === 'string') {
             return cart; // El carrito no existe, retornar el mensaje de error
           }
       
           const product = await productManager.getProductById(pid);
+
           if (typeof product === 'string') {
             return product; // El producto no existe, retornar el mensaje de error
           }
-          let productInCart = cart.products.find((product) => product.product.equals(pid))
-
+          const productInCart = cart.products.find((product) => product.equals(pid))
           if (productInCart === undefined) {
             cart.products.push({ product: product, quantity: 1 });
           } else {
@@ -57,8 +58,9 @@ export default class CartManager {
           await cart.save();
           return "Status: success."
         } catch (error) {
+          console.log('error')
           req.logger.error((`Error en el método ${req.method} llamando a 'addProductInCart'. ERROR: ${error}`))
-          //console.log(error);
+          return//console.log(error);
         }
     };
     
@@ -67,6 +69,7 @@ export default class CartManager {
       if (cartId === `El carrito con id: '${cid}' no existe.`) return `El carrito con id: '${cid}' no existe.` //valido que exista el carrito
 
       let productIndex = cartId.products.findIndex((product) => product._id.toString() === pid); //valido que exista el producto dentro del carrito
+      console.log(productIndex)
       if (productIndex === -1) return `El producto con id: '${pid}' no existe en el carrito '${cid}'.`;
       //es el id de la cantidad de productos y NO del producto en sí
 

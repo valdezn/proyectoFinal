@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
   let carts = await cartManager.getCarts();
 
   if (!carts) {
-    res.send("No se encontró el carritos");
+    res.send("No se encontraron los carritos");
     return;
   }
 
@@ -50,6 +50,19 @@ router.post("/:cid/product/:pid", passport.authenticate('jwt', {session: false})
     }}
   
 )
+
+router.put('/:cid', async (req, res) => {
+  const idCart = req.params.cid;
+  const updateProduct = req.body
+  res.send(await cartManager.updateProductsInTheCart(idCart, updateProduct))
+})
+
+router.put('/:cid/product/:pid', async (req, res) => {
+  const idCart = req.params.cid;
+  const idProduct = req.params.pid;
+  const quantity = req.body
+  res.send(await cartManager.updateProductQuantityFromCart(idCart, idProduct, quantity))    
+})
   
 router.delete("/:cid/product/:pid", async (req, res) => {
   let cartId = req.params.cid;
@@ -73,11 +86,11 @@ router.get('/:cid/purchase', passport.authenticate('jwt', {session: false}), asy
   let cart = await cartController.getCartByIdContoller(id);
   const purchasedProducts = [];
   const failedProducts = [];
+  console.log(`stock: ${cart}`)
   try{
     for (const cartProduct of cart.products) {
       const product = cartProduct.product;
       const desiredQuantity = cartProduct.quantity;
-
       if (product.stock >= desiredQuantity) {
         // Resto el stock del producto
         product.stock -= desiredQuantity;

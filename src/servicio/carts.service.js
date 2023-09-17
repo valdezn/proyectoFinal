@@ -22,7 +22,7 @@ export default class CartService {
   
     async addProductToCartService(cid, pid) {
       const product = await this.productService.getProductsByIdService(pid);
-      const result = await this.cartDao.addProductInCart(cid, product);
+      const result = await this.cartDao.addProductInCart(cid, pid);
       return result;  
   }
   }
