@@ -200,3 +200,13 @@ components:
           type: number
       example:
         quantity: 10
+    ticket:
+      type: object
+      properties:
+        purchasedProducts: 
+          type: [String]
+        failedProducts: 
+          type: [String]
+      example:
+        purchasedProducts: []
+        failedProducts: []
