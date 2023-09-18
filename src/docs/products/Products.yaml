@@ -16,6 +16,8 @@ paths:
         "500":
           description: Se produjo un error.
     post:
+      security:
+      - bearerAuth: []
       summary: Agrega un producto.
       tags:
         - Products
@@ -25,6 +27,17 @@ paths:
           application/json:
             schema:
               $ref: "#components/schemas/addProduct"    
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/products'
+        "500":
+          description: Se produjo un error.
   /api/products/{uid}:
     get:
       summary: Obtiene un producto por Id.
@@ -187,3 +200,8 @@ components:
         code: 'F18'
         stock: 50
         owner: coder@house.com
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
