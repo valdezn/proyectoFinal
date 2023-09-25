@@ -46,3 +46,6 @@
 {"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
 {"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
 {"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: id is not a valid: cannot get product"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: id is not a valid: cannot get product"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: id is not a valid: cannot get product"}

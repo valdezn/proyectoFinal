@@ -74,8 +74,15 @@ paths:
           application/json:
             schema:
               $ref: "#components/schemas/updateProduct"
+      responses:
+        "200":
+          description: "Statuss: success"
+        "500":
+          description: Se produjo un error.      
     delete:
-      summary: Elimina un producto por Id.
+      security:
+      - bearerAuth: []
+      summary: Elimina una unidad de producto por Id.
       tags:
         - Products
       parameters:
@@ -84,6 +91,11 @@ paths:
         description: 'Parametro de ruta para identificar el producto.'
         schema:
           type: String  
+      responses:
+        "200":
+          description: "Se ha eliminado el producto."
+        "500":
+          description: Se produjo un error. 
 
 
 components:
@@ -200,8 +212,10 @@ components:
         code: 'F18'
         stock: 50
         owner: coder@house.com
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    securitySchemes:
+      bearerAuth:
+        type: http
+        name: TokenJWT
+        in: header
+        scheme: bearer
+        bearerFormat: JWT
