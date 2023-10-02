@@ -5,6 +5,8 @@ import CartManager from '../daos/clases/mongo/cartsManager.js';
 import UserDTO from './DTO/user.dto.js';
 import nodemailer from 'nodemailer';
 import { createHash } from '../utils.js';
+import userModel from '../daos/models/users.model.js';
+
 
 const cartsManager = new CartManager();
 const users = new UserManager();
@@ -107,9 +109,46 @@ const updateUser = async (req, res) => {
   return res.send({status: "success", message: "Role updated. Los cambios se verán en el próximo login."})
 }
 
+const files = async (req, res) => {
+  const user = req.user.user;
+  const uploadedFiles = req.files;
+
+  console.log(uploadedFiles[0].path)
+  try {
+    const documents = uploadedFiles.map((file) => ({
+      name: file.originalname,
+      reference: file.path,
+    }));
+
+    // Actualizo el estado del usuario para indicar que se cargaron documentos
+    const userUpdate = await userModel.findOneAndUpdate(
+      { _id: user._id },
+      { $push: { documents: { $each: documents } } },
+      { new: true }
+    );
+
+    await userUpdate.save()
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'Documentos cargados con éxito',
+      user: userUpdate,
+      //documents: uploadedFiles,
+    });
+  } catch (e) {
+    console.log(e)
+    return res.status(500).json({
+      status: 'error',
+      error: 'Error al cargar los documentos o actualizar el estado del usuario',
+    });
+    
+  }
+}
+
+
 const logoutUser = (req, res) => {
   res.clearCookie('coderCookie');
   res.redirect('/login');
 };
 
-export default {loginUser, registerUser, logoutUser, getCurrentUser, authorized, resetPassword, requestResetPassword, updateUser}
+export default {loginUser, registerUser, logoutUser, getCurrentUser, authorized, resetPassword, requestResetPassword, updateUser, files}

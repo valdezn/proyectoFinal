@@ -44,7 +44,7 @@ describe('test ecommerce', () => {
 
     describe("test sessions", () => {
         let cookie;
-        /*it("POST /api/sessions/register registrar un usuario", async () => {
+        /*it("POST /api/sessions/register registrar un usuario", async () => { ///hay que registrar uno nuevo cada vez, sino da error pq ya existe
           const mockUser = {
             first_name: "Julian",
             last_name: "Alvarez",

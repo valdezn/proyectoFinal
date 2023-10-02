@@ -2,6 +2,7 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from 'bcrypt';
 import { faker } from '@faker-js/faker';
+import multer from "multer";
 
 //devuelve la contraseña hasheada, es irreversible.
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -25,3 +26,30 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default __dirname
+
+const determineDestination = (req, file, cb) => {
+    let destination;
+    
+    if (req.body.type === 'profile') {
+      destination = __dirname + '/public/profiles';
+    } else if (req.body.type === 'products') {
+      destination = __dirname + '/public/products';
+    } else if (req.body.type === 'documents') {
+      destination = __dirname + '/public/documents';
+    } else {
+      // Si el campo 'type' no coincide con ninguno de los casos anteriores, maneja el error
+      return cb(new Error('Tipo de archivo no válido'));
+    }
+    console.log(req.body.type)
+    cb(null, destination);
+  };
+  
+
+const storage = multer.diskStorage({
+    destination: determineDestination,
+    filename: (req, file, cb) => {
+      cb(null, file.originalname);
+    },
+});
+
+export const uploader = multer({storage: storage});

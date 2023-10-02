@@ -9,7 +9,12 @@ const schema = new mongoose.Schema({
     age: Number,
     password: String,
     cartId: String,
-    role: String 
+    role: String,
+    documents: [{
+        name: String,
+        reference: String
+    }],
+    last_connection: String  
 })
 
 const userModel = mongoose.model(collection, schema)

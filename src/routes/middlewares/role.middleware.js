@@ -36,3 +36,21 @@ export const roleMiddlewarePremium = (req, res, next) => {
         res.send({status: "error", details: "you don't have access"})
     }
 }
+
+
+export const filesPremium = (req, res, next) => {
+    const user = req.user.user.documents
+    const userDocuments = JSON.stringify(user)
+    const documents = req.user.user.documents.filter((document) => {
+        //retorno todos los docs que haya en la carpeta profile
+        return userDocuments.includes('profiles')
+    })
+
+    //console.log(userDocuments)
+    if(documents.length < 3) {
+        req.logger.error((`Error de autorización en el método ${req.method} en ${req.url}`))
+        res.send({status: "error", details: "you don't complete documents"})
+    }else{
+        next()
+    }
+}
