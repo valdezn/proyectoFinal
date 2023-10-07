@@ -7,7 +7,7 @@ const expect = chai.expect
 const requester = supertest('http://localhost:8080')
 
 describe('test ecommerce', () => {
-    /*describe('test products', () => {
+    describe('test products', () => {
 
         it('GET /api/products/ debe devolver todos los productos correctamente en un Array', async () => {
             const { statusCode, ok, _body } = await requester
@@ -40,27 +40,27 @@ describe('test ecommerce', () => {
                 .send(mokProduct)
             //console.log(statusCode, ok, _body)
         }).timeout(10000);
-    })*/
+    })
 
     describe("test sessions", () => {
         let cookie;
-        /*it("POST /api/sessions/register registrar un usuario", async () => { ///hay que registrar uno nuevo cada vez, sino da error pq ya existe
+        it("POST /api/sessions/register registrar un usuario", async () => { ///hay que registrar uno nuevo cada vez, sino da error pq ya existe
           const mockUser = {
-            first_name: "Julian",
-            last_name: "Alvarez",
-            email: "julian@gmail.com",
-            password: "12345",
+            first_name: "Usuario14",
+            last_name: "Usuario14",
+            email: "valdeznoelia26+14@gmail.com",
+            password: "1234",
           };
           const result = await requester
             .post("/api/sessions/register")
             .send(mockUser);
           expect(result.body).to.be.ok;
-        }).timeout(3000);*/
+        }).timeout(3500);
 
         it("POST /api/sessions/login logear un usuario", async () => {
             const mockUser = {
-              email: "andrea@gmail.com",
-              password: "12345",
+              email: "valdeznoelia26+7@gmail.com",
+              password: "1234",
             };
             const result = await requester.post("/api/sessions/login").send(mockUser);
             //console.log(result);
