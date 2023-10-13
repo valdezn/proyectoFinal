@@ -6,7 +6,7 @@ export default class UserManager{
     connection = mongoose.connect(process.env.MONGO_URL)
 
     getUser = async (email) => {
-        const user = await userModel.find({'email': email})
+        const user = await userModel.find({'email': email}) 
         console.log(user)
         if (!user) return `Usuario no encontrado.`
         return user
