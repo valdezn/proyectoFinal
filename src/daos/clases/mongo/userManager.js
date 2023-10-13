@@ -12,6 +12,17 @@ export default class UserManager{
         return user
     }
 
+    getUsers = async (limit=10, page=1, sort=0, filter=null, filterVal=null) => {
+        let whereOptions = {}
+        if(filter != '' && filterVal != '') {
+          whereOptions = {[filter]: filterVal}
+        }  
+        const result = await userModel.paginate(whereOptions, 
+          {limit: limit, page: page, sort: {price: sort}, lean: true})
+        
+        return result
+    }
+
     updateUser = async (email, userRole) => {
         const user = await this.getUser(email)
         if (user === process.env.ADMIN_EMAIL) {

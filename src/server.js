@@ -24,6 +24,7 @@ import routerLogger from "./routes/logger.router.js";
 import routerEmail from "./routes/email.router.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
+import usersRouter from './routes/users.router.js'
 
 
 dotenv.config({path: './.env'})
@@ -144,3 +145,4 @@ app.use(errorMiddleware)
 app.use('/api/carts/', routerCarts);
 app.use('/mockingproducts/', routerMocks)
 app.use('/email/', routerEmail)
+app.use('/api/users/', usersRouter)
