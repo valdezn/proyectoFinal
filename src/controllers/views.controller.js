@@ -1,6 +1,7 @@
 import { productModel } from "../daos/models/products.model.js";
 import userModel from "../daos/models/users.model.js";
 import ProductService from "../servicio/products.service.js";
+import UserDTO from "./DTO/user.dto.js";
 
 export default class ProductController {
     constructor() {
@@ -37,13 +38,14 @@ export default class ProductController {
         sort: sort
         };
     
-        const userName = req.user;
-        const userLog = await userModel.findOne({email: userName.user.email})
+        //const userName = req.user;
+        //const userLog = await userModel.findOne({email: userName.user.email})
+        const userLog = new UserDTO(req.user)
         const email = userLog.email
         const rol = userLog.role;
         const firstName = userLog.first_name;
-        const cartId = userLog.cartId;
-
+        const cartId = userLog.cart;
+        console.log(userLog)
         console.log(`Rol del usuario: ${rol}`);
         const result = await productModel.paginate(query, options);
         if (isNaN(page) || page <= 0 || page > result.totalPages) {

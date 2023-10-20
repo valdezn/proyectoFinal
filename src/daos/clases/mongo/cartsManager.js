@@ -47,9 +47,9 @@ export default class CartManager {
             return product; // El producto no existe, retornar el mensaje de error
           }
 
-          const productInCart = cart.products.find((products) => product.equals(pid))
+          const productInCart = cart.products.some((item) => item.product.equals(pid));
 
-          if (productInCart === undefined) {
+          if (productInCart === false) {
             cart.products.push({ product: product, quantity: 1 });
           } else {
             await cartsModel.findOneAndUpdate(

@@ -1,76 +1,12 @@
-{"level":"error","message":"Error de autorización en el método POST en /"}
-{"level":"error","message":"Error de autorización en el método POST en /"}
-{"level":"error","message":"Error de autorización en el método POST en /"}
-{"level":"error","message":"Error de autorización en el método POST en /"}
-{"level":"error","message":"Error de autorización en el método POST en /"}
-{"level":"error","message":"Error de autorización en el método POST en /"}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Assignment to constant variable."}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: ValidationError: owner: Path `owner` is required."}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: ReferenceError: req is not defined"}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Cannot read properties of undefined (reading 'email')"}
-{"level":"error","message":"Error en el método POST llamando a 'addProductController'. ERROR: TypeError: Cannot read properties of undefined (reading 'email')"}
-{"level":"error","message":"Error de autorización"}
-{"level":"error","message":"Error de autorización"}
-{"level":"error","message":"Error de autorización"}
-{"level":"error","message":"Error de autorización"}
-{"level":"error","message":"Error de autorización"}
-{"level":"error","message":"Error de autorización en el método DELETE en /64ffb306d80ec9963ea419fb"}
-{"level":"error","message":"Error de autorización en el método DELETE en /64ffb4055d88849b7de3e7f2"}
-{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: ReferenceError: Cannot access 'product' before initialization"}
-{"level":"error","message":"Error de autorización"}
-{"level":"error","message":"Error de autorización"}
-{"level":"error","message":"Error de autorización"}
-{"level":"fatal","message":"Test de Logger - Level: 'fatal'"}
-{"level":"error","message":"Test de Logger - Level: 'error'"}
-{"level":"error","message":"Error de autorización en el método GET en /premium"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a ''. ERROR: TypeError: Cannot read properties of null (reading 'stock')"}
-{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: id is not a valid: cannot get product"}
-{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: id is not a valid: cannot get product"}
-{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: id is not a valid: cannot get product"}
-{"level":"error","message":"Error de autorización en el método GET en /premium"}
-{"level":"error","message":"Error de autorización en el método POST en /premium"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
-{"level":"error","message":"Error de autorización en el método POST en /premium/6516edbc57b0c62a60782730"}
+{"level":"error","message":"Error de autorización en el método POST de /api/products/"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductsController'. ERROR: ReferenceError: cart is not defined"}
+{"level":"error","message":"Error en el método GET llamando a ''. ERROR: ReferenceError: uuid is not defined"}
+{"level":"error","message":"Error en el método GET llamando a ''. ERROR: ReferenceError: uuid is not defined"}
+{"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: RangeError [ERR_HTTP_INVALID_STATUS_CODE]: Invalid status code: ticket"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductsController'. ERROR: MongooseError: Operation `products.countDocuments()` buffering timed out after 10000ms"}
+{"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: ReferenceError: ticket is not defined"}
+{"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: ReferenceError: ticket is not defined"}
+{"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: ReferenceError: ticket is not defined"}
+{"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: TypeError: amountTicket.push is not a function"}
+{"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: ReferenceError: product is not defined"}
+{"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: ReferenceError: desiredQuantity is not defined"}

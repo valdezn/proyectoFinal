@@ -4,7 +4,6 @@ import __dirname from "../utils.js";
 import { cartsModel } from '../daos/models/carts.model.js';
 import ProductController from '../controllers/views.controller.js'; 
 import passport from "passport";
-import sessionController from '../controllers/session.controller.js';
 
 const productController = new ProductController()
 
@@ -32,8 +31,7 @@ router.get('/requestResetPassword', (req, res) => {
   res.render('requestResetPassword');
 })
 
-router.get('/products', passport.authenticate('jwt', { session: false }), productController.getProductsController);
-
+router.get('/products', passport.authenticate('jwt', { session: false , failureRedirect: '/login'}), productController.getProductsController);
 
 router.get('/carts/:cid', async (req, res) => {
     const id = req.params.cid;
@@ -42,9 +40,9 @@ router.get('/carts/:cid', async (req, res) => {
       const productsInCart = cart.products;
       const empty = productsInCart.length
       if (empty === 0) {
-        res.send('El carrito está vacío.')
+        res.render('cart.handlebars')
       } else {
-        res.render('cart.handlebars', { products: productsInCart })};
+        res.render('cart.handlebars', { products: productsInCart, id })};
     } catch (error) {
       console.log(error);
       res.render('cartError.handlebars', { message: error });

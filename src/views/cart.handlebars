@@ -1,6 +1,7 @@
+<h2>Carrito: {{ this.id }}</h2>
 {{#each products}}
   <div class="products">
-    <h2>Name: {{this.product.name}}</h2>
+    <h3>Name: {{this.product.name}}</h3>
     <p>Description: {{this.product.description}}</p>
     <p>Price: ${{this.product.price}}</p>
     <p>Thumbnail: {{this.product.thumbnail}}</p>
@@ -13,9 +14,11 @@
   </div>
 {{/each}}
 
+<p><a href="/products/">Seguir comprando</a></p>
+<p><a href="/api/carts/{{this.id}}/purchase">Procesar compra</a></p>
 
 <style>
   .products {
-    line-height: 0.5; /* Ajusta el valor según tus preferencias */
+    line-height: 0.5; 
   }
 </style>

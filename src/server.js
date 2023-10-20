@@ -110,6 +110,7 @@ socketServer.on("connection", (socket) => {
   socket.on('addToCart', async (cartId, productId) => {
     try {
       await cartManager.addProductInCart(cartId, productId);
+      console.log(productId)
       console.log('Producto agregado al carrito con ID:', cartId);
     } catch (error) {
       console.error('Error al agregar el producto al carrito:', error);

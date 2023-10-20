@@ -5,12 +5,11 @@ import { verificarCarrito } from "./middlewares/carts.middleware.js";
 import passport from "passport";
 import TicketsController from "../controllers/tickets.controller.js";
 import ProductController from "../controllers/products.controller.js";
-import {v4 as uuid} from 'uuid';
+import { processPurchase } from "./middlewares/carts.middleware.js";
 
 
 const router = Router();
 
-let ticketsController = new TicketsController();
 let cartManager = new CartManager();
 let cartController = new CartController();
 let productController = new ProductController()
@@ -81,7 +80,12 @@ router.delete("/:cid", async (req, res) => {
   res.send({ status: "success" });
 });
 
-router.get('/:cid/purchase', passport.authenticate('jwt', {session: false}), async (req, res) => {
+router.get('/:cid/purchase', passport.authenticate('jwt', { session: false }), processPurchase);
+
+
+
+
+/*router.get('/:cid/purchase', passport.authenticate('jwt', {session: false}), async (req, res) => {
   let id = req.params.cid;
   let cart = await cartController.getCartByIdContoller(id);
   const purchasedProducts = [];
@@ -121,6 +125,6 @@ router.get('/:cid/purchase', passport.authenticate('jwt', {session: false}), asy
     //console.error(error);
     res.status(500).json({ error: 'Error al procesar la compra.' });
   }
-});
+});*/
 
 export default router;

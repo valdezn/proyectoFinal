@@ -74,7 +74,7 @@ addProductBtn.addEventListener('click', function(e) {
   })
   
   function addToCart(button, productId) {
-    var successMessage = button.nextElementSibling;
+    var successMessage = document.getElementById("successMessage_" + productId);
     successMessage.style.display = 'block'; //msj emergente al presionar el boton addtocart
     
     // Oculto el mensaje después de 3 segundos

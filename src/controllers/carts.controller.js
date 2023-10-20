@@ -1,10 +1,12 @@
 import CartService from "../servicio/carts.service.js";
 import ProductService from "../servicio/products.service.js";
+import TicketsController from "./tickets.controller.js";
 
 export default class CartController {
     constructor() {
       this.cartService = new CartService();
       this.productService = new ProductService();
+      this.ticketsController = new TicketsController()
     }
   
     async createCartController() {
@@ -12,7 +14,7 @@ export default class CartController {
       return result;
     }
   
-    async getCartByIdContoller(id) {
+    async getCartByIdController(id) {
       if (!id) {
         return {
           error: "debes especificar un id",
@@ -33,4 +35,5 @@ export default class CartController {
 
       const result = await this.cartService.addProductToCartService(cartId, productId);
       return result;
-  }}
+  }
+}

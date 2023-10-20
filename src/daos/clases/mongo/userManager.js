@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import userModel from "../../models/users.model.js";
 
-
+ 
 export default class UserManager{
     connection = mongoose.connect(process.env.MONGO_URL)
 

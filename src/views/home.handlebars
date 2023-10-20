@@ -6,9 +6,9 @@
     {{else}}
     <p>Rol: User</p>
     {{/isEqual}}
-    <p>Carrito:</p>
-    <p id="cartIdElement" data-cartid="{{cartId}}">{{cartId}}</p>
-    
+    <p><a href="/carts/{{cartId}}">Carrito</a></p>
+    <p id="cartIdElement" data-cartid="{{cartId}}">{{cartId}}</p> 
+   
     <button id="logout">Logout</button>
 
 <head>
@@ -27,7 +27,7 @@
 <p>Stock: {{this.stock}}</p>
 <p>Id: {{this._id}}</p> {{! recibo el id que genera mongo}}
 <button onclick="addToCart(this, '{{this._id}}')">Agregar al Carrito</button>
-<div id="successMessage" style="display: none;">
+<div id="successMessage_{{this._id}}" style="display: none;">
   Producto agregado! {{! msj para confirmar que se agregó el producto}}
 </div>
 {{/each}}
