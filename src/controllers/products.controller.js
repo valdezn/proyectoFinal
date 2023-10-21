@@ -114,7 +114,51 @@ export default class ProductController {
         }
     }
 
+    
     deleteProductByStockController = async (req, res, next) => {
+        try{
+            if (!mongoose.isValidObjectId(req.params.pid)){
+                CustomError.createError({
+                    name: 'id is not a valid',
+                    cause: `the given id is not a object id Mongo`,
+                    message: 'cannot delete product',
+                    code: ErrorEnum.PARAM_ERROR
+                })
+            }
+
+            const productOwner = await this.productService.getProductsByIdService(req.params.pid)
+            
+            if ( !(req.user.user.role === "admin" || productOwner.owner === req.user.user.email) ) {
+                return res.status(403).
+                send({ status: "error", details: "You don't have access. You are not the product owner" })
+            }
+
+            const product = await this.productService.deleteProductBySotckService(req.params.pid)
+
+            const userProduct = productOwner.owner
+            const user = await usersController.getUserController(userProduct)
+            const role = user[0].role
+
+            if(userProduct != 'admin' && role === 'premium'){
+
+                    let result = await transport.sendMail({
+                        from: "valdeznoelia26@gmail.com",
+                        to: user[0].email,
+                        subject: "Warning",
+                        html: `
+                        <div style='color:blue'>
+                        <h1>Se ha eliminado un producto que usted creó: ${req.params.pid}</h1>
+                        </div>`, ///el botón funciona sólo en pc
+                    });
+                    result
+                }
+            res.send(`Se ha eliminado una unidad del producto ${req.params.pid}.`)
+        }catch(error){
+            req.logger.error((`Error en el método ${req.method} llamando a 'deleteProductByStockController'. ERROR: ${error}`))
+            return next(error)
+        }
+    }
+    /*deleteProductByStockController = async (req, res, next) => {
         try{
             if (!mongoose.isValidObjectId(req.params.pid)){
                 CustomError.createError({
@@ -138,5 +182,5 @@ export default class ProductController {
             req.logger.error((`Error en el método ${req.method} llamando a 'deleteProductByStockController'. ERROR: ${error}`))
             return next(error)
         }
-    }
+    }*/
 }

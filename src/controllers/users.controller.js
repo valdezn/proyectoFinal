@@ -18,8 +18,8 @@ export default class UsersController {
           filter,
           filterVal
         );
-        res.send(result)
-        return;
+
+        return result;
     }
 
     async getUserController(email) {
@@ -30,5 +30,15 @@ export default class UsersController {
     async deleteUsersController(req, res) {
         const result = await this.usersManager.deleteUsers(req, res)
         return result
+    }
+
+    async deleteUserController(req, res) {
+        const result = await this.usersManager.deleteUser(req, res)
+        return result
+    }
+
+    async editRole(req, res) {
+        const user = await this.usersManager.editRole(req, res) 
+        return user
     }
 }

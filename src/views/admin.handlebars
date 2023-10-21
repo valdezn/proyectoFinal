@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Users</title>
+</head>
+<body>
+    <h1>Admin Users</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <td>{{this.first_name}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.role}}</td>
+                <td>
+                <form method="POST" action="/admin/users/{{this.email}}/edit">
+                <label for="role">Selecciona un nuevo rol:</label>
+                <select name="role" id="role">
+                <option value="user">Usuario</option>
+                <option value="admin">Administrador</option>
+                <option value="premium">Premium</option>
+                </select>
+                <button type="submit">Guardar cambios</button>
+                </form>
+
+                <button type="button" onclick="location.href='/admin/users/{{this.email}}/delete'">Eliminar</button>
+
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</body>
+</html>

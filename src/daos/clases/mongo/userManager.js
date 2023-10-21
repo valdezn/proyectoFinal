@@ -74,5 +74,32 @@ export default class UserManager{
             return({status: "Success", details: `Se eliminaron ${inactive.length} usuario/s`});
         }
         res.send({status: "Success", details: "No hubo usuarios inactivos para eliminar"});
-    }    
+    }  
+    
+    deleteUser = async (req, res) => {
+        const email = req.params.email
+        await userModel.deleteOne({email: email})
+        res.send({status: "Success", details: "Se ha eliminado un usaurio"});  
+    }
+
+    async editRole(req, res) {
+        const email = req.params.email;
+        const newRole = req.body.role;
+        try {
+            const user = await userModel.findOne({ email: email });
+    
+            if (!user) {
+                return res.status(404).json({ error: 'Usuario no encontrado' });
+            }
+            console.log(newRole)
+            user.role = newRole;
+            await user.save();
+    
+            res.json({ message: 'Rol actualizado con éxito' });
+        } catch (error) {
+            res.status(500).json({ error: 'Error al actualizar el rol' });
+        }
+    }
+    
+    
 }

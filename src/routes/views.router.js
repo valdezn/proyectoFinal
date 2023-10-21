@@ -4,8 +4,12 @@ import __dirname from "../utils.js";
 import { cartsModel } from '../daos/models/carts.model.js';
 import ProductController from '../controllers/views.controller.js'; 
 import passport from "passport";
+import { multipleRoles } from './middlewares/role.middleware.js';
+import UsersController from '../controllers/users.controller.js';
+
 
 const productController = new ProductController()
+const usersController = new UsersController()
 
 const router = express.Router();
 
@@ -32,6 +36,19 @@ router.get('/requestResetPassword', (req, res) => {
 })
 
 router.get('/products', passport.authenticate('jwt', { session: false , failureRedirect: '/login'}), productController.getProductsController);
+
+router.get('/admin/users', passport.authenticate('jwt', { session: false }), /*multipleRoles(['admin']),*/ async (req, res) => {
+  const users = await usersController.getUsersController(req, res)
+  res.render('admin', users)
+});
+
+router.post('/admin/users/:email/edit', passport.authenticate('jwt', { session: false }), /*multipleRoles(['admin']),*/async (req, res) => {
+  await usersController.editRole(req, res)
+})
+
+router.get('/admin/users/:email/delete', passport.authenticate('jwt', { session: false }), /*multipleRoles(['admin']),*/async (req, res) => {
+  await usersController.deleteUserController(req, res)
+})
 
 router.get('/carts/:cid', async (req, res) => {
     const id = req.params.cid;
