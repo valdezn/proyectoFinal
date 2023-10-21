@@ -18,14 +18,15 @@ export default class CartManager {
       return result
     }
 
-    getCartById = async (id) => {
+    getCartById = async (cartId) => {
         try {
-            if (!mongoose.isValidObjectId(id)) {
-              return `El carrito con id: '${id}' no existe.`;
+          console.log(`cartId en manager: ${cartId}`)  
+          if (!mongoose.isValidObjectId(cartId)) {
+              return `El carrito con id: '${cartId}' no existe.`;
             }
-            const result = await cartsModel.findOne({ _id: id }).populate('products.product'); ///
+            const result = await cartsModel.findOne({ _id: cartId }).populate('products.product').lean(); ///
             ///console.log(result)
-            if (!result) return `El carrito con id: '${id}' no existe.`
+            if (!result) return `El carrito con id: '${cartId}' no existe.`
             return result;
         } catch (error) {
           req.logger.error((`Error en el método ${req.method} llamando a 'getCartById'. ERROR: ${error}`))
@@ -33,34 +34,35 @@ export default class CartManager {
         }
     };
   
-    addProductInCart = async (cid, pid) => {
+    addProductInCart = async (cartId, productId) => {
         try {
-          const cart = await this.getCartById(cid);
-
+          //const cart = await this.getCartById(cartId);
+          const cart = await cartsModel.findOne({ _id: cartId }).populate('products.product');
+          console.log(`cartId en addProductInCart Manager: ${cartId}`)
           if (typeof cart === 'string') {
             return cart; // El carrito no existe, retornar el mensaje de error
           }
       
-          const product = await productManager.getProductById(pid);
+          const product = await productManager.getProductById(productId);
 
           if (typeof product === 'string') {
             return product; // El producto no existe, retornar el mensaje de error
           }
 
-          const productInCart = cart.products.some((item) => item.product.equals(pid));
+          const productInCart = cart.products.some((item) => item.product.equals(productId));
 
           if (productInCart === false) {
             cart.products.push({ product: product, quantity: 1 });
           } else {
             await cartsModel.findOneAndUpdate(
-              { _id: cart._id, "products.product": pid }, // Filtro para encontrar el carrito y el producto específico
+              { _id: cart._id, "products.product": productId }, // Filtro para encontrar el carrito y el producto específico
               { $inc: { "products.$.quantity": 1 } } // Incremento la cantidad del producto en 1
             );
           }
           await cart.save();
           return "Status: success."
         } catch (error) {
-          console.log('error')
+          console.log(error)
           req.logger.error((`Error en el método ${req.method} llamando a 'addProductInCart'. ERROR: ${error}`))
           return//console.log(error);
         }

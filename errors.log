@@ -11,3 +11,5 @@
 {"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: ReferenceError: product is not defined"}
 {"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: ReferenceError: desiredQuantity is not defined"}
 {"level":"error","message":"Error en el método GET llamando a 'getCartByIdController'. ERROR: TypeError: Cannot read properties of undefined (reading 'send')"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductsController'. ERROR: MongooseError: Operation `products.countDocuments()` buffering timed out after 10000ms"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductsController'. ERROR: MongooseError: Operation `products.countDocuments()` buffering timed out after 10000ms"}

@@ -37,7 +37,7 @@ export default class UsersController {
         return result
     }
 
-    async editRole(req, res) {
+    async editRoleController(req, res) {
         const user = await this.usersManager.editRole(req, res) 
         return user
     }

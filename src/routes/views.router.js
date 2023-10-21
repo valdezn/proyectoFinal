@@ -6,9 +6,11 @@ import ProductController from '../controllers/views.controller.js';
 import passport from "passport";
 import { multipleRoles } from './middlewares/role.middleware.js';
 import UsersController from '../controllers/users.controller.js';
+import CartController from '../controllers/carts.controller.js';
 
 
 const productController = new ProductController()
+const cartController = new CartController()
 const usersController = new UsersController()
 
 const router = express.Router();
@@ -43,7 +45,7 @@ router.get('/admin/users', passport.authenticate('jwt', { session: false }), /*m
 });
 
 router.post('/admin/users/:email/edit', passport.authenticate('jwt', { session: false }), /*multipleRoles(['admin']),*/async (req, res) => {
-  await usersController.editRole(req, res)
+  await usersController.editRoleController(req, res)
 })
 
 router.get('/admin/users/:email/delete', passport.authenticate('jwt', { session: false }), /*multipleRoles(['admin']),*/async (req, res) => {
@@ -51,7 +53,20 @@ router.get('/admin/users/:email/delete', passport.authenticate('jwt', { session:
 })
 
 router.get('/carts/:cid', async (req, res) => {
-    const id = req.params.cid;
+  await cartController.viewGetCartByIdController(req, res)     
+})
+
+
+router.get('/realtimeproducts', passport.authenticate('jwt', { session: false }), async (req, res) => { //
+    let page = parseInt(req.query.page);
+    if(!page) page=1;
+    let result = await productModel.paginate({},{page,lean:true}) //lean hace que llegue el doc a handlebars como plain object y no como document.
+    res.render('realTimeProducts.handlebars', result)
+})
+
+
+export default router;
+  /*const id = req.params.cid;
     try {
       const cart = await cartsModel.findOne({ _id: id }).populate('products.product').lean();
       const productsInCart = cart.products;
@@ -63,15 +78,4 @@ router.get('/carts/:cid', async (req, res) => {
     } catch (error) {
       console.log(error);
       res.render('cartError.handlebars', { message: error });
-    }
-  });
-
-  router.get('/realtimeproducts', passport.authenticate('jwt', { session: false }), async (req, res) => { //
-    let page = parseInt(req.query.page);
-    if(!page) page=1;
-    let result = await productModel.paginate({},{page,lean:true}) //lean hace que llegue el doc a handlebars como plain object y no como document.
-    res.render('realTimeProducts.handlebars', result)
-})
-
-
-export default router;
+    }*/

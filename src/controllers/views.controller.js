@@ -45,8 +45,8 @@ export default class ProductController {
         const rol = userLog.role;
         const firstName = userLog.first_name;
         const cartId = userLog.cart;
-        console.log(userLog)
-        console.log(`Rol del usuario: ${rol}`);
+        //console.log(userLog)
+        //console.log(`Rol del usuario: ${rol}`);
         const result = await productModel.paginate(query, options);
         if (isNaN(page) || page <= 0 || page > result.totalPages) {
             res.status(404).render('error404.handlebars');
@@ -64,7 +64,7 @@ export default class ProductController {
             hasPrevPage: result.hasPrevPage
         };
         
-        res.render('home.handlebars', {...response, email, firstName, rol, cartId});
+        res.render('home.handlebars', {...response, email, firstName, rol, cartId, req});
         } catch (error) {
         //console.error('Error al obtener los productos:', error);
         req.logger.error(`Error en el método ${req.method} llamando a 'getProductsController'. ERROR: ${error}`)

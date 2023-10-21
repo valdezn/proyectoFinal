@@ -17,7 +17,7 @@ let productController = new ProductController()
 router.get("/:cid", async (req, res) => {
   let id = req.params.cid;
 
-  let cart = await cartController.getCartByIdContoller(id);
+  let cart = await cartController.getCartByIdController(id);
 
   res.send(cart);
 });

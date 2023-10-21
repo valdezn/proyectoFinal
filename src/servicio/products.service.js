@@ -22,8 +22,8 @@ export default class ProductService {
   }
 
 
-  async getProductsByIdService(id) {
-    const result = await this.productManager.getProductById(id);
+  async getProductsByIdService(req, productId) {
+    const result = await this.productManager.getProductById(productId);
 
     if (!result) {
       req.logger.error((`Error en el método ${req.method} llamando a 'getProductByIdService'.`))

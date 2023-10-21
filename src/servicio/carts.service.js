@@ -20,9 +20,10 @@ export default class CartService {
       return result;
     }
   
-    async addProductToCartService(cid, pid) {
-      const product = await this.productService.getProductsByIdService(pid);
-      const result = await this.cartDao.addProductInCart(cid, pid);
+    async addProductToCartService(cartId, productId) {
+      const product = await this.productService.getProductsByIdService(productId);
+      const result = await this.cartDao.addProductInCart(cartId, productId);
+      console.log(`cartId en service: ${cartId}`)
       return result;  
   }
   }
