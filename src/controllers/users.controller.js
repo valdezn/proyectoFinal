@@ -26,4 +26,9 @@ export default class UsersController {
         const result = await this.usersManager.getUser(email)
         return result
     }
+
+    async deleteUsersController(req, res) {
+        const result = await this.usersManager.deleteUsers(req, res)
+        return result
+    }
 }

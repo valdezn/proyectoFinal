@@ -47,4 +47,32 @@ export default class UserManager{
                 {$set: {password: newHashPassword}}
         )
     }
+
+    deleteUsers = async (req, res) => {
+        const usersDTO = await this.getUsers();
+        const users = usersDTO.users;
+        const currentTime = Date.now();
+        const inactive = [];
+      
+        for (const user of users) {
+            const lastConnection = user.last_connection;
+      
+            // Calcular el tiempo de inactividad en milisegundos
+            const inactiveTime = currentTime - lastConnection;
+      
+            // Si el tiempo de inactividad supera un límite (por ejemplo, 30 minutos), considera al usuario inactivo
+            const inactivityLimit = 30 * 60 * 1000; // 30 minutos en milisegundos
+            //const inactivityLimit = 2 * 24 * 60 * 60 * 1000; // 2 días en milisegundos
+    
+            if (inactiveTime > inactivityLimit) {
+                inactive.push(user.email);
+            }
+        }
+        console.log(inactive)
+        if (inactive.length > 0) {
+            await userModel.deleteMany({ email: { $in: inactive } });
+            return({status: "Success", details: `Se eliminaron ${inactive.length} usuario/s`});
+        }
+        res.send({status: "Success", details: "No hubo usuarios inactivos para eliminar"});
+    }    
 }
