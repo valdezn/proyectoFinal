@@ -1,3 +1,4 @@
+import UserManager from "../daos/clases/mongo/userManager.js";
 import { productModel } from "../daos/models/products.model.js";
 import userModel from "../daos/models/users.model.js";
 import ProductService from "../servicio/products.service.js";
@@ -72,3 +73,24 @@ export default class ProductController {
         }
     }
 }
+
+export class UsersViewsController {
+    constructor() {
+    this.usersManager = new UserManager;
+    }
+    async getUsersController (req, res, next) {
+        let limit = Number(req.query.limit) || 10
+        let page = Number(req.query.page)
+        let sort = Number(req.query.sort)
+        let filter = req.query.filter
+        let filterVal = req.query.filterVal
+        const result = await this.usersManager.getUsers(
+          limit,
+          page,
+          sort,
+          filter,
+          filterVal
+        );
+
+    return result;
+}}

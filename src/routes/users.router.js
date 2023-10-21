@@ -14,8 +14,8 @@ router.get('/', async (req, res, next) => {
 
 router.post('/premium/:uid', passport.authenticate('jwt', { session: false }), filesPremium, sessionController.updateUser);
 
-router.delete('/', passport.authenticate('jwt', {session: false}),
-    /*multipleRoles(['admin']),*/ async (req, res, next) => {
+router.get('/delete', passport.authenticate('jwt', {session: false}),
+    multipleRoles(['admin']), async (req, res, next) => {
         await userController.deleteUsersController(req, res, next)
 })
 

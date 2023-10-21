@@ -19,7 +19,7 @@ export default class UsersController {
           filterVal
         );
 
-        return result;
+        res.send(result);
     }
 
     async getUserController(email) {

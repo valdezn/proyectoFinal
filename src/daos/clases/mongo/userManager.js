@@ -19,8 +19,11 @@ export default class UserManager{
           whereOptions = {[filter]: filterVal}
         }  
         const result = await userModel.paginate(whereOptions, 
-          {limit: limit, page: page, sort: {price: sort}, lean: true})
-          const users = new UserShortDTO(result.docs)
+          {limit: limit, page: page, sort: {first_name: sort}, lean: true})
+        
+        const users = new UserShortDTO(result.docs)
+
+        //console.log(users)
         return users
     }
 
@@ -52,7 +55,7 @@ export default class UserManager{
         const usersDTO = await this.getUsers();
         const users = usersDTO.users;
         const currentTime = Date.now();
-        const inactive = [];
+        var inactive = [];
       
         for (const user of users) {
             const lastConnection = user.last_connection;
@@ -72,6 +75,19 @@ export default class UserManager{
         if (inactive.length > 0) {
             await userModel.deleteMany({ email: { $in: inactive } });
             return({status: "Success", details: `Se eliminaron ${inactive.length} usuario/s`});
+        }
+
+        for(email of inactive){
+            let result = await transport.sendMail({
+                from: "valdeznoelia26@gmail.com",
+                to: email,
+                subject: "Warning",
+                html: `
+                <div style='color:blue'>
+                <h1>Su usuario hay sido eliminado por inactividad</h1>
+                </div>`, ///el botón funciona sólo en pc
+            });
+            return result
         }
         res.send({status: "Success", details: "No hubo usuarios inactivos para eliminar"});
     }  

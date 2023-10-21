@@ -7,11 +7,13 @@ import passport from "passport";
 import { multipleRoles } from './middlewares/role.middleware.js';
 import UsersController from '../controllers/users.controller.js';
 import CartController from '../controllers/carts.controller.js';
+import { UsersViewsController } from '../controllers/views.controller.js';
 
 
 const productController = new ProductController()
 const cartController = new CartController()
 const usersController = new UsersController()
+const usersViewsController = new UsersViewsController()
 
 const router = express.Router();
 
@@ -39,16 +41,16 @@ router.get('/requestResetPassword', (req, res) => {
 
 router.get('/products', passport.authenticate('jwt', { session: false , failureRedirect: '/login'}), productController.getProductsController);
 
-router.get('/admin/users', passport.authenticate('jwt', { session: false }), /*multipleRoles(['admin']),*/ async (req, res) => {
-  const users = await usersController.getUsersController(req, res)
+router.get('/admin/users', passport.authenticate('jwt', { session: false }), multipleRoles(['admin']), async (req, res) => {
+  const users = await usersViewsController.getUsersController(req, res)
   res.render('admin', users)
 });
 
-router.post('/admin/users/:email/edit', passport.authenticate('jwt', { session: false }), /*multipleRoles(['admin']),*/async (req, res) => {
+router.post('/admin/users/:email/edit', passport.authenticate('jwt', { session: false }), multipleRoles(['admin']), async (req, res) => {
   await usersController.editRoleController(req, res)
 })
 
-router.get('/admin/users/:email/delete', passport.authenticate('jwt', { session: false }), /*multipleRoles(['admin']),*/async (req, res) => {
+router.get('/admin/users/:email/delete', passport.authenticate('jwt', { session: false }), multipleRoles(['admin']), async (req, res) => {
   await usersController.deleteUserController(req, res)
 })
 
