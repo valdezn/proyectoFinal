@@ -46,8 +46,7 @@ router.post("/:cid/product/:pid", passport.authenticate('jwt', {session: false})
       res.send({ status: "success", result });
     }catch(e){
       res.status(500).json({ status: "error", details: "Internal server error" });
-    }}
-  
+    }}  
 )
 
 router.put('/:cid', async (req, res) => {

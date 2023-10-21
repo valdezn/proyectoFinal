@@ -16,13 +16,13 @@ export default class CartController {
       return result;
     }
   
-    async getCartByIdController(id) {
-      if (!id) {
+    async getCartByIdController(cartId) {
+      if (!cartId) {
         return {
           error: "debes especificar un id",
         };
       }
-      const result = await this.cartService.getCartById(id);
+      const result = await this.cartService.getCartById(cartId);
       return result;
     }
     

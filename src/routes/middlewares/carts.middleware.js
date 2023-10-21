@@ -1,6 +1,9 @@
 import CartController from "../../controllers/carts.controller.js"
 import TicketsController from "../../controllers/tickets.controller.js"
+import { cartsModel } from "../../daos/models/carts.model.js";
 import {v4 as uuid} from 'uuid';
+import { ticketsModel } from "../../daos/models/tickets.model.js";
+
 
 const cartController = new CartController()
 const ticketsController = new TicketsController()
@@ -13,30 +16,31 @@ export const verificarCarrito = (req, res, next) =>{
     }
 }
 
-  // Función para procesar la compra
+// Función para procesar la compra
+
 export const processPurchase = async (req, res) =>  {
-    const id = req.params.cid;
-    const cart = await cartController.getCartByIdController(id);
+    const cartId = req.params.cid;
+    var cart = await cartsModel.findOne({_id: cartId}).populate('products.product');
     const purchasedProducts = [];
     const failedProducts = [];
     var amountTicket = 0
     var idProducts = []
     //console.log(`stock: ${cart}`);
 
+    console.log(`cart: ${cart}`)
     try {
-        for (const cartProduct of cart.products) {
+      for (const cartProduct of cart.products) {
         var product = cartProduct.product;
         var desiredQuantity = cartProduct.quantity;
         if (product.stock >= desiredQuantity) {
           // Resto el stock del producto
           product.stock -= desiredQuantity;
           await product.save();
-
           purchasedProducts.push(product);
           
           var amountProductPrice = product.price * desiredQuantity
-          
-          var amountTicket = (amountTicket + amountProductPrice)
+          console.log(product.price)
+          amountTicket += amountProductPrice;
           
           var idProduct = product._id
 
@@ -53,8 +57,8 @@ export const processPurchase = async (req, res) =>  {
         amount: amountTicket
       });
       await ticket.save();
-      console.log(`ticket: ${ticket}`)
-      console.log(`idProducts: ${idProducts}`)
+      //console.log(`ticket: ${ticket}`)
+      //console.log(`idProducts: ${idProducts}`)
       // Actualizo el carrito con los productos no comprados
       cart.products = cart.products.filter((cartProduct) =>
         failedProducts.includes(cartProduct.product)
@@ -68,4 +72,4 @@ export const processPurchase = async (req, res) =>  {
       );
       res.status(500).json({ error: 'Error al procesar la compra.' });
     }
-}
+  }

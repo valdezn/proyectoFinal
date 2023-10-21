@@ -24,8 +24,8 @@ export default class CartManager {
           if (!mongoose.isValidObjectId(cartId)) {
               return `El carrito con id: '${cartId}' no existe.`;
             }
-            const result = await cartsModel.findOne({ _id: cartId }).populate('products.product').lean(); ///
-            ///console.log(result)
+            const result = await cartsModel.findOne({ _id: cartId }).populate('products.product').lean(); 
+            console.log(`result en getCartById en manage: ${result}`)
             if (!result) return `El carrito con id: '${cartId}' no existe.`
             return result;
         } catch (error) {
@@ -69,7 +69,7 @@ export default class CartManager {
     };
     
     updateProductQuantityFromCart = async (cid, pid, quantity) => {
-      let cartId = await this.getCartById(cid)
+      let cartId = await cartsModel.findOne({ _id: cid });
       if (cartId === `El carrito con id: '${cid}' no existe.`) return `El carrito con id: '${cid}' no existe.` //valido que exista el carrito
 
       let productIndex = cartId.products.findIndex((product) => product._id.toString() === pid); //valido que exista el producto dentro del carrito
@@ -128,7 +128,7 @@ export default class CartManager {
     }
 
     deleteAllProductsFromCart = async (cid) => {
-      let cartId = await this.getCartById(cid)
+      let cartId = await cartsModel.findOne({ _id: cid });
       if (cartId === `El carrito con id: '${cid}' no existe.`) return `El carrito con id: '${cid}' no existe.`
       cartId.products = []
       await cartId.save()

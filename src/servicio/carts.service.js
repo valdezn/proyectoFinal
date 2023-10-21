@@ -12,8 +12,8 @@ export default class CartService {
       return result;
     }
   
-    async getCartById(id) {
-      const result = await this.cartDao.getCartById(id);
+    async getCartById(cartId) {
+      const result = await this.cartDao.getCartById(cartId);
       if (!result) {
         return { error: "carrito no encontrado" };
       }
