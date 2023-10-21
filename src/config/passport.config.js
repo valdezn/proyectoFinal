@@ -14,6 +14,7 @@ const initializePassport = () => {
             const {first_name, last_name, email, age} = req.body;
             try {
                 let user = await userModel.findOne({email: username});
+                console.log(user)
                 if(user){
                     console.log('User already exists.')
                     return done(null,false)
@@ -52,6 +53,8 @@ const initializePassport = () => {
                 return done(null, false);
             }
             if (!isValidPassword(user, password)) return done(null, false);
+            user.last_connection = Date.now()
+            user.save()
             return done(null, user);
         } catch (error) {
             return done(error);

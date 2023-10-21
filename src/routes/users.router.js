@@ -2,7 +2,7 @@ import { Router } from "express";
 import passport from "passport";
 import sessionController from "../controllers/session.controller.js";
 import UsersController from "../controllers/users.controller.js"
-import { filesPremium, multipleRoles } from "./middlewares/role.middleware.js";
+import { filesPremium } from "./middlewares/role.middleware.js";
 
 const router = Router();
 const userController = new UsersController()

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import userModel from "../../models/users.model.js";
+import UserShortDTO from "../../../controllers/DTO/userShort.dto.js";
 
  
 export default class UserManager{
@@ -19,8 +20,8 @@ export default class UserManager{
         }  
         const result = await userModel.paginate(whereOptions, 
           {limit: limit, page: page, sort: {price: sort}, lean: true})
-        
-        return result
+          const users = new UserShortDTO(result.docs)
+        return users
     }
 
     updateUser = async (email, userRole) => {

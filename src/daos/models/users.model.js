@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
         name: String,
         reference: String
     }],
-    last_connection: String  
+    last_connection: { type: Date, default: Date.now }
 })
 
 schema.plugin(mongoosePaginate)
