@@ -31,3 +31,30 @@
 {"level":"error","message":"Error en el método GET llamando a 'getProductsController'. ERROR: MongooseError: Operation `products.countDocuments()` buffering timed out after 10000ms"}
 {"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: TypeError: cart.save is not a function"}
 {"level":"error","message":"Error en el método GET llamando a 'processPurchase'. ERROR: TypeError: product.save is not a function"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: TypeError: Cannot read properties of undefined (reading 'pid')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: ReferenceError: usersController is not defined"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'first_name')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: JSON is not a function"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}

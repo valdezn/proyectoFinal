@@ -92,10 +92,10 @@ export default class CartManager {
     }
 
     updateProductsInTheCart = async (cid, updatedProduct) => {
-      let cartId = await this.getCartById(cid)
+      let cartId = await cartsModel.findOne({ _id: cid });
       if (cartId === `El carrito con id: '${cid}' no existe.`) return `El carrito con id: '${cid}' no existe.` //valido que exista el carrito
     
-      await cartsModel.updateOne({"_id": cid}, {$set: {"products": updatedProduct}})//seteo el nuevo arreglo de productos
+      await cartsModel.updateOne({"_id": cid}, {$set: {"products": updatedProduct}}).populate('products.product')//seteo el nuevo arreglo de productos
       await cartId.save()
       return `Se ha actualizado el carrito con id: '${cid}'.`
     }
@@ -108,23 +108,27 @@ export default class CartManager {
       return result
     }
 
-    deleteProductFromCart = async (cid, pid) => {
-      let cartId = await this.getCartById(cid)
-      if (cartId === `El carrito con id: '${cid}' no existe.`) return `El carrito con id: '${cid}' no existe.`
-
-      let productIndex = cartId.products.findIndex((product) => product._id.toString() === pid);
-      if (productIndex === -1) return `El producto con id: '${pid}' no existe en el carrito ${cid}.`;
+    deleteProductFromCart = async (req, res) => {
+      var cartId = req.params.cid;
+      var productId = req.params.pid;
+      var cart = await cartsModel.findOne({ _id: cartId }).populate('products.product'); 
+      if (cart === `El carrito con id: '${cartId}' no existe.`) return `El carrito con id: '${cartId}' no existe.`
+      
+      let productIndex = cart.products.findIndex((product) => product._id.toString() === productId);
+      console.log(cart)
+      if (productIndex === -1) return `El producto con id: '${productId}' no existe en el carrito ${cartId}.`;
       //el id que recibo tiene que ser el de la cantidad de productos y NO la del producto en sí
-      let quantityProduct = cartId.products[productIndex].quantity;
+      let quantityProduct = cart.products[productIndex].quantity;
+      console.log(`quantity: ${quantityProduct}`)
       if (quantityProduct > 1) {
-        cartId.products[productIndex].quantity = quantityProduct - 1;
-        await cartId.save()
-        return `Se ha eliminado una unidad del producto con id: ${pid}`
+        cart.products[productIndex].quantity = quantityProduct - 1;
+        await cart.save()
+        return `Se ha eliminado una unidad del producto con id: ${productId}`
       } else {
-        cartId.products.pull({_id: pid})
+        cart.products.pull({_id: productId})
       }
-      await cartId.save()
-      return `El producto con id: ${pid} ha sido eliminado del carrito con id: ${cid}`
+      await cart.save()
+      return `El producto con id: ${productId} ha sido eliminado del carrito con id: ${cart}`
     }
 
     deleteAllProductsFromCart = async (cid) => {

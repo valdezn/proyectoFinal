@@ -25,9 +25,7 @@ router.post('/', passport.authenticate('jwt', {session: false}),
 })
 
 router.delete('/:pid', passport.authenticate('jwt', {session: false}),
-    multipleRoles(['admin', 'premium']), async (req, res, next) => {
-        await productController.deleteProductByStockController(req, res, next)
-})
+    multipleRoles(['admin', 'premium']), productController.deleteProductByStockController)
 
 router.put('/:pid', async (req, res, next) => {
     await productController.updateProductController(req, res, next)

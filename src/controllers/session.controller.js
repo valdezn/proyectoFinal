@@ -41,7 +41,7 @@ const loginUser = async (req, res) => {
 }
 
 const getCurrentUser = async (req, res) => {
-  const result = new UserDTO(req.user)
+  const result = new UserDTO(req.user.user)
   console.log(req.user)
   res.send(result);
 };

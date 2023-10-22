@@ -22,7 +22,7 @@ export default class ProductService {
   }
 
 
-  async getProductsByIdService(req, productId) {
+  async getProductsByIdService(productId) {
     const result = await this.productManager.getProductById(productId);
 
     if (!result) {

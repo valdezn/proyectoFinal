@@ -4,7 +4,11 @@ import { ErrorEnum } from "../servicio/error.enum.js";
 import CustomError from "../servicio/customError.js";
 import { generateErrorInfo } from "../servicio/info.js";
 import mongoose from "mongoose";
+import UsersController from "./users.controller.js";
+import UserDTO from "./DTO/user.dto.js";
 
+
+const usersController = new UsersController()
 
 export default class ProductController {
     constructor() {
@@ -76,6 +80,7 @@ export default class ProductController {
                     code: ErrorEnum.PARAM_ERROR
                 })
             }
+            //const productId = req.paramas.pid
             const product = await this.productService.getProductsByIdService(req.params.pid)
             res.send(product)
         }catch(error){
@@ -116,6 +121,8 @@ export default class ProductController {
 
     
     deleteProductByStockController = async (req, res, next) => {
+        var userStringify = new UserDTO(req.user.user)
+        //const objectUser = JSON.parse(userStringify)
         try{
             if (!mongoose.isValidObjectId(req.params.pid)){
                 CustomError.createError({
@@ -127,18 +134,18 @@ export default class ProductController {
             }
 
             const productOwner = await this.productService.getProductsByIdService(req.params.pid)
-            
-            if ( !(req.user.user.role === "admin" || productOwner.owner === req.user.user.email) ) {
+            if ( !(userStringify.role === "admin" || productOwner.owner === userStringify.email) ) {
                 return res.status(403).
                 send({ status: "error", details: "You don't have access. You are not the product owner" })
             }
 
             const product = await this.productService.deleteProductBySotckService(req.params.pid)
-
             const userProduct = productOwner.owner
-            const user = await usersController.getUserController(userProduct)
-            const role = user[0].role
-
+            if (userProduct === "premium") {
+                var user = await usersController.getUserController(userProduct)
+                var role = user[0].role
+                console.log(role)
+                }
             if(userProduct != 'admin' && role === 'premium'){
 
                     let result = await transport.sendMail({
