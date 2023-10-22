@@ -8,6 +8,8 @@ import { multipleRoles } from './middlewares/role.middleware.js';
 import UsersController from '../controllers/users.controller.js';
 import CartController from '../controllers/carts.controller.js';
 import { UsersViewsController } from '../controllers/views.controller.js';
+import sessionController from '../controllers/session.controller.js';
+
 
 
 const productController = new ProductController()
@@ -30,9 +32,10 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/resetPassword', passport.authenticate('jwtRequestPassword', { session: false , failureRedirect: 'requestResetPassword'}), (req, res) => {
-  //sessionController.resetPassword;
   res.render('resetPassword');
 })
+
+router.post('/resetPassword', async (req, res) => {sessionController.resetViewPassword(req,res)})
 
 router.get('/requestResetPassword', (req, res) => {
   //sessionController.requestResetPassword;

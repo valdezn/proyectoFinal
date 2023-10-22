@@ -62,8 +62,25 @@ const resetPassword = async (req, res) => {
     const newHashPassword = createHash(password);
 
     await users.updatePassword(email, newHashPassword)
-    //console.log('hola')
+    console.log('hola')
     return res.send({status: "success", message: "Password updated"})
+  } catch (e) {
+    return res.status(400).send({status: "error", error: e.message})
+  }
+}
+
+const resetViewPassword = async (req, res) => {
+  const {email, password} = req.body;
+
+  if (!email || !password) {
+    return res.status(400).send({status: "error", error: "Incomplete credentials"})
+  }
+
+  try{
+    const newHashPassword = createHash(password);
+
+    await users.updatePassword(email, newHashPassword)
+    return res.render('login')
   } catch (e) {
     return res.status(400).send({status: "error", error: e.message})
   }
@@ -151,4 +168,4 @@ const logoutUser = (req, res) => {
   res.redirect('/login');
 };
 
-export default {loginUser, registerUser, logoutUser, getCurrentUser, authorized, resetPassword, requestResetPassword, updateUser, files}
+export default {loginUser, registerUser, logoutUser, getCurrentUser, authorized, resetPassword, requestResetPassword, updateUser, files, resetViewPassword}

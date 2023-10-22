@@ -111,7 +111,7 @@ export default class UserManager{
             user.role = newRole;
             await user.save();
     
-            res.json({ message: 'Rol actualizado con éxito' });
+            res.render('editRole');
         } catch (error) {
             res.status(500).json({ error: 'Error al actualizar el rol' });
         }
