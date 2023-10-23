@@ -27,6 +27,7 @@ import swaggerUiExpress from "swagger-ui-express";
 import usersRouter from './routes/users.router.js'
 
 
+
 dotenv.config({path: './.env'})
 
 const chatManager = new ChatManager();
@@ -53,6 +54,8 @@ app.use(passport.initialize());
 app.use(cookieParser());
 //app.use(passport.session());
  
+
+
 const swaggerOptions = {
   definition: {
     openapi: '3.0.1',
