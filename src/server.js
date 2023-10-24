@@ -39,7 +39,7 @@ app.use(
   session({
     store: new MongoStore({
       mongoUrl:
-      'mongodb+srv://valdeznoelia26:coderhouse@cluster0.vxwlhyd.mongodb.net/ecommerce?retryWrites=true&w=majority'
+      'process.env.MONGO_URL'
     }),
     secret: "mongoSecret",
     resave: true,
@@ -87,7 +87,7 @@ app.set("view engine", "handlebars");
 app.set('views', __dirname + '/views')
 
 
-const expressServer = app.listen(8080, () => console.log("Listening"));
+const expressServer = app.listen(process.env.PORT || 8080, () => console.log("Listening"));
 const socketServer = new Server(expressServer);
 
 const mensajes = []
