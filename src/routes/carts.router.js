@@ -1,78 +1,50 @@
 import { Router } from "express";
 import CartController from "../controllers/carts.controller.js";
-import CartManager from "../daos/clases/mongo/cartsManager.js";
 import { verificarCarrito } from "./middlewares/carts.middleware.js";
 import passport from "passport";
-import TicketsController from "../controllers/tickets.controller.js";
-import ProductController from "../controllers/products.controller.js";
 import { processPurchase } from "./middlewares/carts.middleware.js";
 
 
 const router = Router();
 
-let cartManager = new CartManager();
 let cartController = new CartController();
-let productController = new ProductController()
+
 
 router.get("/:cid", async (req, res) => {
-  let id = req.params.cid;
-
-  let cart = await cartController.getCartByIdController(id);
-
-  res.send(cart);
+  await cartController.getCartByIdController(req, res);
 });
 
 router.get("/", async (req, res) => {
-  let carts = await cartManager.getCarts();
-
-  if (!carts) {
-    res.send("No se encontraron los carritos");
-    return;
-  }
-
-  res.send(carts);
+  await cartController.getCartsController(req, res);
 });
 
 router.post("/", async (req, res) => {
-  const result = await cartController.createCartController();
-
-  res.send({ result });
+  await cartController.createCartController(req, res);
 });
 
 router.post("/:cid/product/:pid", passport.authenticate('jwt', {session: false}),
   verificarCarrito, async (req, res, next) => {
-    try{
-      const result = await cartController.addProductToCartController(req, res, next);
-      res.send({ status: "success", result });
-    }catch(e){
-      res.status(500).json({ status: "error", details: "Internal server error" });
-    }}  
-)
+      await cartController.addProductToCartController(req, res, next);
+})
 
 router.put('/:cid', async (req, res) => {
-  const idCart = req.params.cid;
-  const updateProduct = req.body
-  res.send(await cartManager.updateProductsInTheCart(idCart, updateProduct))
+  await cartController.updateProductsInTheCartController(req, res)
 })
 
 router.put('/:cid/product/:pid', async (req, res) => {
-  const idCart = req.params.cid;
-  const idProduct = req.params.pid;
-  const quantity = req.body
-  res.send(await cartManager.updateProductQuantityFromCart(idCart, idProduct, quantity))    
+  await cartController.updateProductQuantityFromCartController(req, res)    
 })
   
+router.delete("/:cid/product/stock/:pid", async (req, res) => {
+  await cartController.deleteProductFromCartByStockController(req, res);
+});
+
 router.delete("/:cid/product/:pid", async (req, res) => {
-  await cartManager.deleteProductFromCart(req, res);
-  res.send({ status: "success" });
+  await cartController.deleteProductFromController(req, res);
 });
 
 router.delete("/:cid", async (req, res) => {
-  let cartId = req.params.cid;
-
-  await cartManager.deleteAllProductsFromCart(cartId);
-
-  res.send({ status: "success" });
+  await cartController.deleteAllProductsFromCartController(req, res)
 });
 
 router.get('/:cid/purchase', passport.authenticate('jwt', { session: false }), processPurchase);

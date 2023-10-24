@@ -28,7 +28,7 @@ export default class ProductManager {
       return `El producto con id: '${id}' no existe.`;
     }
     const result = await productModel.findOne({_id: id})
-    if (!result) return `El producto con id: '${id}' no existe.`
+    if (result === 'null') return `El producto con id: '${id}' no existe.`
     return result
   }
 
@@ -45,12 +45,12 @@ export default class ProductManager {
     return result;
   }
 
-  /*deleteProduct = async (id) => {
+  deleteProduct = async (id) => {
     const productId = await this.getProductById(id)
     if (productId === `El producto con id: '${id}' no existe.`) return `El producto con id: '${id}' que intenta eliminar no existe.`
     const result = await productModel.deleteOne({_id: id})
     return result
-  }*/
+  }
   
   deleteProductBySotck = async (id) => {
     const productId = await this.getProductById(id)
@@ -59,7 +59,7 @@ export default class ProductManager {
       const productStock = productId.stock - 1
       const result = await productModel.updateOne({_id: id}, {$set: {stock: productStock}})
       //const product = await this.getProductById(id)
-      return
+      return result
     }
   }
 }

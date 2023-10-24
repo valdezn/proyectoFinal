@@ -58,3 +58,15 @@
 {"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
 {"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
 {"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of undefined (reading 'role')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: console.loh is not a function"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: ReferenceError: req is not defined"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: ReferenceError: req is not defined"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of null (reading 'owner')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of null (reading 'owner')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of null (reading 'owner')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of null (reading 'owner')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductByStockController'. ERROR: TypeError: Cannot read properties of null (reading 'owner')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductController'. ERROR: TypeError: Cannot read properties of null (reading 'owner')"}
+{"level":"error","message":"Error en el método DELETE llamando a 'deleteProductController'. ERROR: TypeError: Cannot read properties of null (reading 'owner')"}
+{"level":"error","message":"Error en el método GET llamando a 'getProductByIdController'. ERROR: ReferenceError: productOwner is not defined"}
+{"level":"error","message":"Error de autorización en el método POST de /api/products/"}

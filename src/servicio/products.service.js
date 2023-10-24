@@ -24,8 +24,7 @@ export default class ProductService {
 
   async getProductsByIdService(productId) {
     const result = await this.productManager.getProductById(productId);
-
-    if (!result) {
+    if (result === 'null') {
       req.logger.error((`Error en el método ${req.method} llamando a 'getProductByIdService'.`))
       return {
         error: "producto no existe",
@@ -42,6 +41,12 @@ export default class ProductService {
   async deleteProductBySotckService(pid) {
     console.log(pid)
     const result = await this.productManager.deleteProductBySotck(pid)
+    return result
+  }
+
+  async deleteProductService(pid) {
+    console.log(pid)
+    const result = await this.productManager.deleteProduct(pid)
     return result
   }
 }

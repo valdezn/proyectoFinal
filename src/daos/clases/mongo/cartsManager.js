@@ -20,12 +20,12 @@ export default class CartManager {
 
     getCartById = async (cartId) => {
         try {
-          console.log(`cartId en manager: ${cartId}`)  
+          //console.log(`cartId en manager: ${cartId}`)  
           if (!mongoose.isValidObjectId(cartId)) {
               return `El carrito con id: '${cartId}' no existe.`;
             }
             const result = await cartsModel.findOne({ _id: cartId }).populate('products.product').lean(); 
-            console.log(`result en getCartById en manage: ${result}`)
+            //console.log(`result en getCartById en manage: ${result}`)
             if (!result) return `El carrito con id: '${cartId}' no existe.`
             return result;
         } catch (error) {
@@ -38,7 +38,7 @@ export default class CartManager {
         try {
           //const cart = await this.getCartById(cartId);
           const cart = await cartsModel.findOne({ _id: cartId }).populate('products.product');
-          console.log(`cartId en addProductInCart Manager: ${cartId}`)
+          //console.log(`cartId en addProductInCart Manager: ${cartId}`)
           if (typeof cart === 'string') {
             return cart; // El carrito no existe, retornar el mensaje de error
           }
@@ -60,9 +60,9 @@ export default class CartManager {
             );
           }
           await cart.save();
-          return "Status: success."
+          return({Status: "suscces"})
         } catch (error) {
-          console.log(error)
+          //console.log(error)
           req.logger.error((`Error en el método ${req.method} llamando a 'addProductInCart'. ERROR: ${error}`))
           return//console.log(error);
         }
@@ -108,18 +108,18 @@ export default class CartManager {
       return result
     }
 
-    deleteProductFromCart = async (req, res) => {
+    deleteProductFromCartByStock = async (req, res) => {
       var cartId = req.params.cid;
       var productId = req.params.pid;
       var cart = await cartsModel.findOne({ _id: cartId }).populate('products.product'); 
       if (cart === `El carrito con id: '${cartId}' no existe.`) return `El carrito con id: '${cartId}' no existe.`
       
       let productIndex = cart.products.findIndex((product) => product._id.toString() === productId);
-      console.log(cart)
+      //console.log(cart)
       if (productIndex === -1) return `El producto con id: '${productId}' no existe en el carrito ${cartId}.`;
       //el id que recibo tiene que ser el de la cantidad de productos y NO la del producto en sí
       let quantityProduct = cart.products[productIndex].quantity;
-      console.log(`quantity: ${quantityProduct}`)
+      //console.log(`quantity: ${quantityProduct}`)
       if (quantityProduct > 1) {
         cart.products[productIndex].quantity = quantityProduct - 1;
         await cart.save()
@@ -130,6 +130,28 @@ export default class CartManager {
       await cart.save()
       return `El producto con id: ${productId} ha sido eliminado del carrito con id: ${cart}`
     }
+
+    deleteProductFromCart = async (req, res) => {
+      var cartId = req.params.cid;
+      var productId = req.params.pid;
+      var cart = await cartsModel.findOne({ _id: cartId }).populate('products.product'); 
+      if (!cart) return `El carrito con id: '${cartId}' no existe.`
+      
+      const productExists = cart.products.some(item => item.product._id.equals(productId));
+      if (!productExists) return `El producto con id: '${productId}' no existe en el carrito ${cartId}.`;
+      //el id que recibo tiene que ser el de la cantidad de productos y NO la del producto en sí
+      
+      for (let i = 0; i < cart.products.length; i++) {
+        if (cart.products[i].product._id.equals(productId)) {
+          cart.products.splice(i, 1); // Elimina el producto del carrito
+          break; // Rompe el ciclo una vez que se haya eliminado
+        }
+      }
+      
+      await cart.save();
+      return res.send(`El producto con id: ${productId} ha sido eliminado del carrito con id: ${cartId}`)
+    }
+    
 
     deleteAllProductsFromCart = async (cid) => {
       let cartId = await cartsModel.findOne({ _id: cid });

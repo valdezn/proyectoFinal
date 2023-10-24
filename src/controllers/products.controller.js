@@ -6,7 +6,17 @@ import { generateErrorInfo } from "../servicio/info.js";
 import mongoose from "mongoose";
 import UsersController from "./users.controller.js";
 import UserDTO from "./DTO/user.dto.js";
+import nodemailer from 'nodemailer'
 
+
+const transport = nodemailer.createTransport({
+    service: "gmail",
+    port: 587,
+    auth: {
+      user: process.env.USER_EMAIL,
+      pass: process.env.EMAIL_PASS
+    },
+});
 
 const usersController = new UsersController()
 
@@ -47,7 +57,6 @@ export default class ProductController {
             req.socketServer.sockets.emit("updatedProducts", products)
             res.send({status: "success"})
         }catch (error){
-            //console.log(`ERROR ${error}`)
             req.logger.error((`Error en el método ${req.method} llamando a 'addProductController'. ERROR: ${error}`))
             return next(error)
         }
@@ -80,9 +89,12 @@ export default class ProductController {
                     code: ErrorEnum.PARAM_ERROR
                 })
             }
-            //const productId = req.paramas.pid
             const product = await this.productService.getProductsByIdService(req.params.pid)
-            res.send(product)
+            if(!product) {
+                return res.status(403).
+                send({ status: "error", details: "El producto no existe" })
+            }
+            return res.send(product)
         }catch(error){
             req.logger.error((`Error en el método ${req.method} llamando a 'getProductByIdController'. ERROR: ${error}`))
             return next(error)
@@ -113,7 +125,6 @@ export default class ProductController {
             
             res.send({status: "success"})
         }catch (error){
-            //console.log(`ERROR ${error}`)
             req.logger.error((`Error en el método ${req.method} llamando a 'updateProductController'. ERROR: ${error}`))
             return next(error)
         }
@@ -122,7 +133,6 @@ export default class ProductController {
     
     deleteProductByStockController = async (req, res, next) => {
         var userStringify = new UserDTO(req.user.user)
-        //const objectUser = JSON.parse(userStringify)
         try{
             if (!mongoose.isValidObjectId(req.params.pid)){
                 CustomError.createError({
@@ -134,6 +144,12 @@ export default class ProductController {
             }
 
             const productOwner = await this.productService.getProductsByIdService(req.params.pid)
+
+            if(!productOwner) {
+                return res.status(403).
+                send({ status: "error", details: "El producto no existe" })
+            }
+
             if ( !(userStringify.role === "admin" || productOwner.owner === userStringify.email) ) {
                 return res.status(403).
                 send({ status: "error", details: "You don't have access. You are not the product owner" })
@@ -141,11 +157,12 @@ export default class ProductController {
 
             const product = await this.productService.deleteProductBySotckService(req.params.pid)
             const userProduct = productOwner.owner
-            if (userProduct === "premium") {
-                var user = await usersController.getUserController(userProduct)
+            var user = await usersController.getUserController(userProduct)
+            console.log(user[0].role)
+            if (user[0].role === "premium") {
                 var role = user[0].role
-                console.log(role)
-                }
+            }
+
             if(userProduct != 'admin' && role === 'premium'){
 
                     let result = await transport.sendMail({
@@ -154,8 +171,8 @@ export default class ProductController {
                         subject: "Warning",
                         html: `
                         <div style='color:blue'>
-                        <h1>Se ha eliminado un producto que usted creó: ${req.params.pid}</h1>
-                        </div>`, ///el botón funciona sólo en pc
+                        <h1>Se ha eliminado una unidad de un producto que usted creó: ${req.params.pid}</h1>
+                        </div>`
                     });
                     result
                 }
@@ -165,7 +182,9 @@ export default class ProductController {
             return next(error)
         }
     }
-    /*deleteProductByStockController = async (req, res, next) => {
+
+    deleteProductController = async (req, res, next) => {
+        var userStringify = new UserDTO(req.user.user)
         try{
             if (!mongoose.isValidObjectId(req.params.pid)){
                 CustomError.createError({
@@ -175,19 +194,42 @@ export default class ProductController {
                     code: ErrorEnum.PARAM_ERROR
                 })
             }
-
             const productOwner = await this.productService.getProductsByIdService(req.params.pid)
-            
-            if ( !(req.user.user.role === "admin" || productOwner.owner === req.user.user.email) ) {
+
+            if(!productOwner) {
+                return res.status(403).
+                send({ status: "error", details: "El producto no existe" })
+            }
+
+            if ( !(userStringify.role === "admin" || productOwner.owner === userStringify.email) ) {
                 return res.status(403).
                 send({ status: "error", details: "You don't have access. You are not the product owner" })
             }
 
-            const product = await this.productService.deleteProductBySotckService(req.params.pid)
-            res.send(`Se ha eliminado una unidad del producto ${req.params.pid}.`)
+            const product = await this.productService.deleteProductService(req.params.pid)
+            const userProduct = productOwner.owner
+            var user = await usersController.getUserController(userProduct)
+            console.log(user[0].role)
+            if (user[0].role === "premium") {
+                var role = user[0].role
+            }
+            if(userProduct != 'admin' && role === 'premium'){
+
+                    let result = await transport.sendMail({
+                        from: "valdeznoelia26@gmail.com",
+                        to: user[0].email,
+                        subject: "Warning",
+                        html: `
+                        <div style='color:blue'>
+                        <h1>Se ha eliminado un producto que usted creó: ${req.params.pid}</h1>
+                        </div>`
+                    });
+                    result
+                }
+            res.send(`Se ha eliminado el producto ${req.params.pid}.`)
         }catch(error){
-            req.logger.error((`Error en el método ${req.method} llamando a 'deleteProductByStockController'. ERROR: ${error}`))
+            req.logger.error((`Error en el método ${req.method} llamando a 'deleteProductController'. ERROR: ${error}`))
             return next(error)
         }
-    }*/
+    }
 }
