@@ -55,8 +55,8 @@ export default class ProductController {
         }
         const response = {
             docs: result.docs,
-            prevLink: result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}` : '',
-            nextLink: result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}` : '',
+            prevLink: result.hasPrevPage ? `/products?page=${result.prevPage}` : '',
+            nextLink: result.hasNextPage ? `/products?page=${result.nextPage}` : '',
             isValid: result.page >= 1 && result.page <= result.totalPages,
             count: result.totalDocs,
             page: result.page,
