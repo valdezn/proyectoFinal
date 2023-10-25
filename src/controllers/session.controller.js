@@ -107,7 +107,7 @@ const requestResetPassword = async (req, res) => {
       html: `
         <div style='color:blue'>
           <h1>Reestablezca su contraseña</h1>
-          <a href="http://localhost:8080/resetPassword?token=${token}"><button id="restart">Restart</button></a> 
+          <a href="https://proyectofinal-production-5546.up.railway.app/resetPassword?token=${token}"><button id="restart">Restart</button></a> 
         </div>`, 
       });
     return res.send({status: "success", message: "Se ha enviado mail recuperacion"})
