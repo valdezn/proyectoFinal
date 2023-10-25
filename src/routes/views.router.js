@@ -1,7 +1,6 @@
 import express from 'express';
 import { productModel } from '../daos/models/products.model.js';
 import __dirname from "../utils.js";
-import { cartsModel } from '../daos/models/carts.model.js';
 import ProductController from '../controllers/views.controller.js'; 
 import passport from "passport";
 import { multipleRoles } from './middlewares/role.middleware.js';
@@ -38,7 +37,6 @@ router.get('/resetPassword', passport.authenticate('jwtRequestPassword', { sessi
 router.post('/resetPassword', async (req, res) => {sessionController.resetViewPassword(req,res)})
 
 router.get('/requestResetPassword', (req, res) => {
-  //sessionController.requestResetPassword;
   res.render('requestResetPassword');
 })
 

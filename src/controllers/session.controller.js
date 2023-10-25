@@ -30,7 +30,6 @@ const loginUser = async (req, res) => {
       });
     
       const user = req.user; // Accedo al usuario autenticado desde req.user
-      //console.log(user)
       
       const passwordMatch = bcrypt.compare(req.body.password, user.password);
       if (!passwordMatch) return res.status(400).send({status: "error", details: "Credenciales incorrectas"})
@@ -118,7 +117,7 @@ const requestResetPassword = async (req, res) => {
 
 const updateUser = async (req, res) => {
   const {email, role} = req.body;
-  //const userId = req.params.uid
+
   if (!email || !role) {
     return res.status(400).send({status: "error", error: "Incomplete credentials"})
   }
@@ -150,7 +149,6 @@ const files = async (req, res) => {
       status: 'success',
       message: 'Documentos cargados con éxito',
       user: userUpdate,
-      //documents: uploadedFiles,
     });
   } catch (e) {
     console.log(e)

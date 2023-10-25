@@ -57,8 +57,7 @@ export const processPurchase = async (req, res) =>  {
         amount: amountTicket
       });
       await ticket.save();
-      //console.log(`ticket: ${ticket}`)
-      //console.log(`idProducts: ${idProducts}`)
+
       // Actualizo el carrito con los productos no comprados
       cart.products = cart.products.filter((cartProduct) =>
         failedProducts.includes(cartProduct.product)

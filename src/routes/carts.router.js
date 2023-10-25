@@ -49,49 +49,4 @@ router.delete("/:cid", async (req, res) => {
 
 router.get('/:cid/purchase', passport.authenticate('jwt', { session: false }), processPurchase);
 
-
-
-
-/*router.get('/:cid/purchase', passport.authenticate('jwt', {session: false}), async (req, res) => {
-  let id = req.params.cid;
-  let cart = await cartController.getCartByIdContoller(id);
-  const purchasedProducts = [];
-  const failedProducts = [];
-  console.log(`stock: ${cart}`)
-  try{
-    for (const cartProduct of cart.products) {
-      const product = cartProduct.product;
-      const desiredQuantity = cartProduct.quantity;
-      if (product.stock >= desiredQuantity) {
-        // Resto el stock del producto
-        product.stock -= desiredQuantity;
-        await product.save();
-
-        purchasedProducts.push(product);
-
-        const ticket = await ticketsController.addTicketController({
-          code: uuid(), 
-          purchaser: req.user.user.email, 
-          amount: product.price * desiredQuantity,
-        });
-        await ticket.save();
-      } else {
-        failedProducts.push(product._id);
-      }
-    }
-    // Actualizo el carrito con los productos no comprados
-    cart.products = cart.products.filter(cartProduct =>
-      failedProducts.includes(cartProduct.product)
-    );
-    await cart.save();
-  
-    // Devuelve respuesta con productos comprados y no comprados
-    res.json({ purchasedProducts, failedProducts });
-  } catch (error) {
-    req.logger.error((`Error en el método ${req.method} llamando a ''. ERROR: ${error}`))
-    //console.error(error);
-    res.status(500).json({ error: 'Error al procesar la compra.' });
-  }
-});*/
-
 export default router;
