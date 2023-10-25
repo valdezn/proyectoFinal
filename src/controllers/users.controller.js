@@ -34,7 +34,7 @@ export default class UsersController {
 
     async deleteUserController(req, res) {
         const result = await this.usersManager.deleteUser(req, res)
-        return result
+        return res.redirect('/admin/users')
     }
 
     async editRoleController(req, res) {

@@ -71,16 +71,3 @@ router.get('/realtimeproducts', passport.authenticate('jwt', { session: false })
 
 
 export default router;
-  /*const id = req.params.cid;
-    try {
-      const cart = await cartsModel.findOne({ _id: id }).populate('products.product').lean();
-      const productsInCart = cart.products;
-      const empty = productsInCart.length
-      if (empty === 0) {
-        res.render('cart.handlebars')
-      } else {
-        res.render('cart.handlebars', { products: productsInCart, id })};
-    } catch (error) {
-      console.log(error);
-      res.render('cartError.handlebars', { message: error });
-    }*/

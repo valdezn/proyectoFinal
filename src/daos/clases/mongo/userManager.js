@@ -95,7 +95,7 @@ export default class UserManager{
     deleteUser = async (req, res) => {
         const email = req.params.email
         await userModel.deleteOne({email: email})
-        res.send({status: "Success", details: "Se ha eliminado un usaurio"});  
+        return({status: "Success", details: "Se ha eliminado un usaurio"});  
     }
 
     async editRole(req, res) {
