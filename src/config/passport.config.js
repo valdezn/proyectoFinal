@@ -69,7 +69,7 @@ const initializePassport = () => {
         //console.log(profile)
         let user = await userModel.findOne({first_name: profile._json.name})
         console.log(user)
-        if (!user){
+        if (user === 'null'){
             let newUser = {
                 first_name: profile._json.name,
                 last_name: 'lastName',
