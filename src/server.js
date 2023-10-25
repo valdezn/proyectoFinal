@@ -34,25 +34,25 @@ const chatManager = new ChatManager();
 const productsManager = new ProductManager();
 const cartManager = new CartManager();
 const app = Express();
-/*
+
 app.use(
   session({
     store: new MongoStore({
       mongoUrl:
-      'process.env.MONGO_URL'
+      process.env.MONGO_URL
     }),
     secret: "mongoSecret",
     resave: true,
     saveUninitialized: false,
   })
   );
-  */
+  
  
 initializePassport();
 initializePassportJWT();
 app.use(passport.initialize());
 app.use(cookieParser());
-//app.use(passport.session());
+app.use(passport.session());
  
 
 
